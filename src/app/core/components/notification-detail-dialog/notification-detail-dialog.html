@@ -1,0 +1,41 @@
+<p-dialog
+  [visible]="visible()"
+  (onHide)="hide()"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [dismissableMask]="true"
+  [style]="{ width: 'min(480px, 95vw)', borderRadius: '24px' }"
+  styleClass="notification-detail-dialog"
+>
+  @if (notification(); as item) {
+    <div class="flex flex-col gap-4 p-2!">
+      <div class="flex items-start justify-between gap-3">
+        <h2 class="text-xl font-bold text-gray-900 m-0! leading-snug">{{ item.title }}</h2>
+        <button
+          type="button"
+          class="shrink-0 w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-500 cursor-pointer border-0 bg-transparent"
+          (click)="hide()"
+          [attr.aria-label]="'common.close' | translate"
+        >
+          <i class="pi pi-times"></i>
+        </button>
+      </div>
+
+      @if (item.typeName) {
+        <span class="inline-flex self-start px-3 py-1 text-xs font-semibold rounded-full bg-primary/10 text-primary">
+          {{ item.typeName }}
+        </span>
+      }
+
+      <p class="text-sm text-gray-700 whitespace-pre-wrap m-0! leading-relaxed">{{ item.message }}</p>
+
+      <div class="flex flex-col gap-1 pt-2 border-t border-gray-100 text-xs text-gray-500">
+        <span>{{ 'organizationNotifications.receivedAt' | translate }}: {{ formatDate(item.createdDate) }}</span>
+        @if (item.isRead && item.readDate) {
+          <span>{{ 'organizationNotifications.readAt' | translate }}: {{ formatDate(item.readDate) }}</span>
+        }
+      </div>
+    </div>
+  }
+</p-dialog>

@@ -1,0 +1,7 @@
+{
+  "/api": {
+    "target": "https://gameguru-api.alternativesolutionstech.com",
+    "secure": true,
+    "changeOrigin": true
+  }
+}

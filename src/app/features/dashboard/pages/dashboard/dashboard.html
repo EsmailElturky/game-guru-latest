@@ -1,0 +1,208 @@
+<div class="dashboard px-5! py-5! min-h-full flex flex-col flex-1 gap-6!">
+  <!-- Top: Dark teal header + metrics -->
+  <section class="dashboard-hero rounded-2xl p-6! flex flex-col gap-6! mb-6!">
+    <div class="flex flex-wrap justify-between items-start gap-4">
+      <div>
+        <h1 class="text-2xl md:text-3xl font-bold text-white m-0">
+          {{ 'dashboard.greeting' | translate: { name: userName() } }}
+        </h1>
+        @if (dataPeriodLabel()) {
+          <p class="text-white/90 text-sm mt-1 m-0">
+            {{ 'dashboard.dataPeriod' | translate: { period: dataPeriodLabel() } }}
+          </p>
+        }
+      </div>
+      <uikit-select-button
+        [options]="periodOptions()"
+        [value]="period()"
+        (selectButtonChanged)="onPeriodChange($event)"
+      ></uikit-select-button>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      @if (loading()) {
+        <p class="text-white col-span-full m-0">{{ 'common.loading' | translate }}</p>
+      } @else {
+      @for (m of metrics(); track m.labelKey) {
+        <p-card class="dashboard-metric-card">
+          <div class="flex items-start gap-3 justify-center items-center!">
+            <div class="dashboard-metric-icon">
+              <i [class]="m.icon" class="pi text-lg"></i>
+            </div>
+            <div class="flex-1">
+              <p class="font-bold text-xl text-gray-900 m-0">{{ m.value }}</p>
+              <p class="text-sm text-gray-600 m-0 mt-0.5">{{ m.labelKey | translate }}</p>
+            </div>
+          </div>
+        </p-card>
+      }
+      }
+    </div>
+  </section>
+
+  <!-- Middle: Analytics + Requests -->
+  <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <p-card class="dashboard-panel">
+      <div class="flex items-center gap-2 mb-2">
+        <i class="pi pi-chart-bar text-gray-600"></i>
+        <h2 class="text-lg font-bold text-gray-900 m-0">
+          {{ 'dashboard.bookingsAnalytics' | translate }}
+        </h2>
+      </div>
+      <p class="text-sm text-gray-500 m-0 mb-4">
+        {{ 'dashboard.showingDataByStatus' | translate }}
+      </p>
+      <div class="h-[280px]">
+        <p-chart
+          type="bar"
+          [data]="bookingsChartData()"
+          [options]="bookingsChartOptions()"
+          [responsive]="true"
+          style="display: block; height: 100%; width: 100%"
+        ></p-chart>
+      </div>
+    </p-card>
+
+    <!-- <p-card class="dashboard-panel">
+      <div class="flex items-center gap-2 mb-4">
+        <i class="pi pi-list text-gray-600"></i>
+        <h2 class="text-lg font-bold text-gray-900 m-0">{{ 'dashboard.requests' | translate }}</h2>
+      </div>
+      <div class="flex flex-wrap justify-around gap-4 mb-4">
+        <div class="flex flex-col items-center" style="width: 100px">
+          <div class="relative w-20 h-20">
+            <p-chart
+              type="doughnut"
+              [data]="approvedDonutData()"
+              [options]="donutOptions"
+              [responsive]="true"
+              style="display: block; width: 100%; height: 100%"
+            ></p-chart>
+            <span
+              class="absolute inset-0 flex items-center justify-center text-sm font-bold text-gray-700 z-10 pointer-events-none"
+              >{{ requestsApproved().value }}%</span
+            >
+          </div>
+          <span class="text-xs mt-1 text-gray-600"
+            >{{ 'dashboard.approved' | translate }}: {{ requestsApproved().count }}</span
+          >
+        </div>
+        <div class="flex flex-col items-center" style="width: 100px">
+          <div class="relative w-20 h-20">
+            <p-chart
+              type="doughnut"
+              [data]="underReviewDonutData()"
+              [options]="donutOptions"
+              [responsive]="true"
+              style="display: block; width: 100%; height: 100%"
+            ></p-chart>
+            <span
+              class="absolute inset-0 flex items-center justify-center text-sm font-bold text-gray-700 z-10 pointer-events-none"
+              >{{ requestsUnderReview().value }}%</span
+            >
+          </div>
+          <span class="text-xs mt-1 text-gray-600"
+            >{{ 'dashboard.underReview' | translate }}: {{ requestsUnderReview().count }}</span
+          >
+        </div>
+        <div class="flex flex-col items-center" style="width: 100px">
+          <div class="relative w-20 h-20">
+            <p-chart
+              type="doughnut"
+              [data]="rejectedDonutData()"
+              [options]="donutOptions"
+              [responsive]="true"
+              style="display: block; width: 100%; height: 100%"
+            ></p-chart>
+            <span
+              class="absolute inset-0 flex items-center justify-center text-sm font-bold text-gray-700 z-10 pointer-events-none"
+              >{{ requestsRejected().value }}%</span
+            >
+          </div>
+          <span class="text-xs mt-1 text-gray-600"
+            >{{ 'dashboard.rejected' | translate }}: {{ requestsRejected().count }}</span
+          >
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-4 justify-center text-sm">
+        <span class="flex items-center gap-1.5"
+          ><span class="w-2.5 h-2.5 rounded-full bg-[#3B82F6]"></span>
+          {{ 'dashboard.approved' | translate }}: 30</span
+        >
+        <span class="flex items-center gap-1.5"
+          ><span class="w-2.5 h-2.5 rounded-full bg-[#64748B]"></span>
+          {{ 'dashboard.underReview' | translate }}: 40</span
+        >
+        <span class="flex items-center gap-1.5"
+          ><span class="w-2.5 h-2.5 rounded-full bg-[#EF4444]"></span>
+          {{ 'dashboard.rejected' | translate }}: 55</span
+        >
+      </div>
+    </p-card> -->
+  </section>
+
+  <!-- Bottom: Last Bookings Update -->
+  <!-- <section class="flex-1 min-h-0 flex flex-col">
+    <p-card class="dashboard-panel flex-1 flex flex-col min-h-0">
+      <div class="flex flex-wrap justify-between items-center gap-4 mb-4">
+        <div class="flex items-center gap-2">
+          <i class="pi pi-list text-gray-600"></i>
+          <h2 class="text-lg font-bold text-gray-900 m-0">
+            {{ 'dashboard.lastBookingsUpdate' | translate }}
+          </h2>
+        </div>
+        <a routerLink="/booking" class="no-underline">
+          <uikit-button
+            [label]="'dashboard.viewAllBookings' | translate"
+            [style]="{
+              borderRadius: '12px',
+              paddingLeft: '20px',
+              paddingRight: '20px',
+            }"
+          ></uikit-button>
+        </a>
+      </div>
+      <div class="flex flex-wrap gap-2 mb-3">
+        <uikit-select
+          [options]="sortOptions()"
+          optionLabel="label"
+          optionValue="value"
+          [style]="{ minWidth: '140px' }"
+        ></uikit-select>
+        <uikit-select
+          [options]="[{ label: 'All Status', value: 'all' }]"
+          optionLabel="label"
+          optionValue="value"
+          [style]="{ minWidth: '120px' }"
+        ></uikit-select>
+        <uikit-select
+          [options]="[{ label: 'Date', value: 'date' }]"
+          optionLabel="label"
+          optionValue="value"
+          [style]="{ minWidth: '120px' }"
+        ></uikit-select>
+      </div>
+      <p class="text-sm text-gray-500 m-0 mb-4">
+        {{ 'dashboard.filteredDateBy' | translate: { date: filteredDateLabel() } }}
+      </p>
+      <ul class="last-bookings-list list-none p-0 m-0 flex flex-col gap-3 overflow-auto">
+        @for (b of lastBookings(); track b.id) {
+          <li
+            class="flex flex-wrap items-center justify-between gap-2 py-3 border-b border-gray-100 last:border-0"
+          >
+            <span class="font-medium text-gray-900">{{ b.name }}</span>
+            <span class="flex items-center gap-2">
+              @if (b.status === 'Success') {
+                <i class="pi pi-check-circle text-[#14B8A6]"></i>
+                <span class="text-sm text-[#14B8A6]">{{ 'dashboard.success' | translate }}</span>
+              } @else {
+                <i class="pi pi-minus-circle text-gray-400"></i>
+                <span class="text-sm text-gray-500">{{ 'dashboard.pending' | translate }}</span>
+              }
+            </span>
+            <span class="text-sm text-gray-500">{{ b.timestamp }}</span>
+          </li>
+        }
+      </ul>
+    </p-card>
+  </section> -->
+</div>

@@ -1,0 +1,29 @@
+.login {
+  background-image: url('../../../../../assets/images/lets-start-bg.svg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  // background-color: var(--primary-500);
+  background-blend-mode: overlay;
+}
+.control {
+  width: clamp(300px, 90%, 470px);
+}
+
+.tap-card-sdk-host {
+  width: 100%;
+
+  &[hidden] {
+    display: none !important;
+  }
+}
+
+.tap-card-sdk {
+  width: 100%;
+}
+
+#tap-apple-pay-button {
+  width: 100%;
+  min-height: 48px;
+}

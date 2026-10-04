@@ -1,0 +1,304 @@
+<div class="px-5! py-5! flex flex-col flex-1">
+  <div class="flex flex-wrap justify-end items-center gap-4 mb-8">
+    <uikit-button
+      type="button"
+      [label]="'common.back' | translate"
+      variant="outline"
+      [outlined]="true"
+      [style]="{ minWidth: '100px', height: '44px', borderRadius: '12px' }"
+      (click)="backToList()"
+    ></uikit-button>
+  </div>
+
+  @if (bookingData(); as b) {
+    <div class="flex-1 flex flex-col justify-between gap-10">
+      <div class="flex flex-col gap-10! w-full!">
+        <div class="flex flex-col items-center gap-2 text-center px-4">
+          <h2 class="text-2xl font-bold text-gray-900">
+            {{ 'table.referenceNumber' | translate }} #{{ b.id }}
+          </h2>
+          <p class="text-gray-500! text-lg!">
+            {{ b.statusName ? ('booking.statuses.' + b.statusName | translate) : '—' }}
+          </p>
+        </div>
+
+        @if (b.qrCode) {
+          <div class="flex flex-col items-center gap-3 px-4">
+            <span class="text-xs font-bold! text-gray-400! uppercase tracking-wider!">{{
+              'booking.qrCode' | translate
+            }}</span>
+            <img
+              [src]="b.qrCode"
+              [alt]="'booking.qrCode' | translate"
+              class="max-w-[200px]! rounded-lg border border-gray-100"
+            />
+          </div>
+        }
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10 px-4">
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'booking.organizationId' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ displayOrDash(b.organizationName) }}</span>
+          </div>
+
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'table.id' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ b.organizationId }}</span>
+          </div>
+
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'booking.facility' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ displayOrDash(b.facilityName) }}</span>
+          </div>
+
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'booking.userId' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ b.userId }}</span>
+          </div>
+
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'booking.fullName' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ displayOrDash(b.fullName) }}</span>
+          </div>
+
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'booking.phoneNumber' | translate
+            }}</span>
+            <span class="text-lg text-gray-800" dir="ltr">{{ phoneLine(b) }}</span>
+          </div>
+
+          @if (hasCoach(b)) {
+            <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+              <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+                'booking.selectCoach' | translate
+              }}</span>
+              <span class="text-lg text-gray-800">{{ displayOrDash(b.coachName) }}</span>
+            </div>
+          }
+
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'booking.sport' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ displayOrDash(b.sportName) }}</span>
+          </div>
+
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'booking.sportType' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ displayOrDash(b.sportTypeName) }}</span>
+          </div>
+
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'booking.genderType' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ displayOrDash(b.genderTypeName) }}</span>
+          </div>
+
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'booking.bookingType' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ displayOrDash(b.bookingTypeName) }}</span>
+          </div>
+
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'booking.duration' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">
+              {{ b.duration }} {{ 'booking.minutes' | translate }}
+            </span>
+          </div>
+
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'booking.startTime' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ b.startTime | date: 'medium' }}</span>
+          </div>
+
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'booking.endTime' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ b.endTime | date: 'medium' }}</span>
+          </div>
+
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'booking.createdDate' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{
+              b.createdDate ? (b.createdDate | date: 'medium') : '—'
+            }}</span>
+          </div>
+
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'booking.amount' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ formatMoney(b.bookingAmount) }}</span>
+          </div>
+
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'booking.isPaid' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{
+              (b.isPaid ? 'common.yes' : 'common.no') | translate
+            }}</span>
+          </div>
+
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'common.status' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{
+              (b.isActive ? 'booking.active' : 'booking.inactive') | translate
+            }}</span>
+          </div>
+
+          @if (b.promotionCode?.trim()) {
+            <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+              <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+                'booking.promotionCode' | translate
+              }}</span>
+              <span class="text-lg text-gray-800">{{ b.promotionCode }}</span>
+            </div>
+          }
+
+          @if (b.ownerPromotionCode?.trim()) {
+            <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+              <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+                'booking.ownerPromotionCode' | translate
+              }}</span>
+              <span class="text-lg text-gray-800">{{ b.ownerPromotionCode }}</span>
+            </div>
+          }
+
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2 col-span-1 md:col-span-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              (isArabic() ? 'booking.descriptionAr' : 'booking.descriptionEn') | translate
+            }}</span>
+            <span
+              class="text-lg text-gray-800 whitespace-pre-wrap"
+              [class.text-end]="isArabic()"
+              [dir]="isArabic() ? 'rtl' : 'ltr'"
+            >
+              {{ bookingDescription(b) }}
+            </span>
+          </div>
+        </div>
+
+        @if (b.financial; as f) {
+          <div class="px-4 flex flex-col gap-6">
+            <h3 class="text-lg font-bold text-gray-900">
+              {{ 'booking.financialSummary' | translate }}
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+              <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+                  'booking.paymentType' | translate
+                }}</span>
+                <span class="text-lg text-gray-800">{{
+                  displayOrDash(f.paymentTypeName || f.paymentType)
+                }}</span>
+              </div>
+              <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+                  'profile.bookingFees' | translate
+                }}</span>
+                <span class="text-lg text-gray-800">{{ formatMoney(f.bookingFees) }}</span>
+              </div>
+              <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+                  'booking.totalBeforeVat' | translate
+                }}</span>
+                <span class="text-lg text-gray-800">{{ formatMoney(f.totalBeforeVat) }}</span>
+              </div>
+              <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+                  'booking.discountValue' | translate
+                }}</span>
+                <span class="text-lg text-gray-800">{{ formatMoney(f.discountValue) }}</span>
+              </div>
+              <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+                  'booking.totalAfterDiscount' | translate
+                }}</span>
+                <span class="text-lg text-gray-800">{{ formatMoney(f.totalAfterDiscount) }}</span>
+              </div>
+              <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+                  'booking.vatValue' | translate
+                }}</span>
+                <span class="text-lg text-gray-800">
+                  {{ formatMoney(f.vatValue) }}
+                  @if (f.vatPercentage) {
+                    <span class="text-sm text-gray-500">({{ f.vatPercentage }}%)</span>
+                  }
+                </span>
+              </div>
+              <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+                  'booking.paymentFees' | translate
+                }}</span>
+                <span class="text-lg text-gray-800">
+                  {{ formatMoney(f.paymentFeesValue) }}
+                  @if (f.paymentFeesPercentage) {
+                    <span class="text-sm text-gray-500">({{ f.paymentFeesPercentage }}%)</span>
+                  }
+                </span>
+              </div>
+              <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2 md:col-span-2">
+                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+                  'booking.total' | translate
+                }}</span>
+                <span class="text-xl font-bold text-gray-900">{{ formatMoney(f.total) }}</span>
+              </div>
+            </div>
+          </div>
+        }
+
+        <div class="px-4 flex flex-col gap-4">
+          <h3 class="text-lg font-bold text-gray-900">{{ 'booking.comments' | translate }}</h3>
+          @if (b.comments?.length) {
+            <ul class="flex flex-col gap-3">
+              @for (comment of b.comments; track $index) {
+                <li class="p-4 rounded-xl bg-gray-50 border flex justify-between items-center gap-4 border-gray-100 text-gray-800">
+                  @if (imageUrl(comment?.fileName); as img) {
+                    <div class="shrink-0">
+                      <img [src]="img" alt="" class="w-32 h-32 rounded-xl! object-cover border border-gray-100" />
+                    </div>
+                  }
+                  <p class="whitespace-pre-wrap m-0">{{ commentText(comment) }}</p>
+                  @if (comment.createdDate) {
+                    <p class="text-xs text-gray-400 mt-2 mb-0">
+                      {{ comment.createdDate | date: 'medium' }}
+                    </p>
+                  }
+                </li>
+              }
+            </ul>
+          } @else {
+            <p class="text-gray-500">{{ 'booking.noComments' | translate }}</p>
+          }
+        </div>
+      </div>
+    </div>
+  }
+</div>

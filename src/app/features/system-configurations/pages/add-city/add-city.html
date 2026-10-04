@@ -1,0 +1,44 @@
+<div class="px-5! py-5! min-h-full flex flex-col">
+<form [formGroup]="cityForm" class="flex flex-col justify-between gap-10 flex-1">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.nameEn' | translate }}</label>
+        <uikit-input-text [emitOnBlur]="false"
+          formControlName="name"
+          [placeholder]="'profile.nameEn' | translate"
+        ></uikit-input-text>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.nameAr' | translate }}</label>
+        <uikit-input-text [emitOnBlur]="false"
+          formControlName="nameAr"
+          [placeholder]="'profile.nameAr' | translate"
+        ></uikit-input-text>
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-4 pt-4 border-t border-gray-100 mt-auto">
+      <uikit-button
+        [label]="'common.cancel' | translate"
+        [style]="{
+          width: '120px',
+          height: '40px',
+          borderRadius: '12px',
+          fontSize: '16px',
+          backgroundColor: '#f3f4f6',
+          color: '#374151',
+        }"
+        (clicked)="cancel()"
+      ></uikit-button>
+
+      <uikit-button
+        type="submit"
+        [label]="(cityId() ? 'common.edit' : 'common.save') | translate"
+        [disabled]="cityForm.invalid"
+        [style]="{ width: '120px', height: '40px', borderRadius: '12px', fontSize: '16px' }"
+        (clicked)="save()"
+      ></uikit-button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,135 @@
+<div class="px-5! py-5! min-h-full flex flex-col">
+  @if (facility(); as fc) {
+    <div class="flex-1 flex flex-col justify-between gap-10">
+      <div class="flex flex-col gap-10 w-full">
+        <div class="flex flex-col items-center gap-2 text-center px-4">
+          <h2 class="text-2xl font-bold text-gray-900">{{ fc.name }}</h2>
+          <p class="text-gray-500 text-lg">{{ displayOrDash(fc.nameAr) }}</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10 px-4">
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'table.id' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ fc.id }}</span>
+          </div>
+
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'menu.organizations' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ displayOrDash(fc.organizationName) }}</span>
+          </div>
+
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'profile.nameEn' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ displayOrDash(fc.name) }}</span>
+          </div>
+
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'profile.nameAr' | translate
+            }}</span>
+            <span class="text-lg text-gray-800" [class.text-end]="isArabic()">{{
+              displayOrDash(fc.nameAr)
+            }}</span>
+          </div>
+
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2 md:col-span-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              (isArabic() ? 'profile.descriptionAr' : 'profile.descriptionEn') | translate
+            }}</span>
+            <span
+              class="text-lg text-gray-800 whitespace-pre-wrap"
+              [class.text-end]="isArabic()"
+              [dir]="isArabic() ? 'rtl' : 'ltr'"
+            >
+              {{ facilityDescription(fc) }}
+            </span>
+          </div>
+
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'profile.sport' | translate
+            }}</span>
+            <div class="flex flex-wrap gap-2 pt-1">
+              @for (sport of fc.sports; track sport.id) {
+                <span
+                  class="px-3 py-1 rounded-full bg-gray-100 text-sm font-medium text-gray-700"
+                  >{{ sport.name }}</span
+                >
+              } @empty {
+                <span class="text-lg text-gray-800">—</span>
+              }
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'profile.dimensions' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">
+              @if (fc.width != null && fc.height != null) {
+                {{ fc.width }} × {{ fc.height }}
+              } @else {
+                —
+              }
+            </span>
+          </div>
+
+          @if (viewAttachmentUrls().length > 0) {
+            <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2 md:col-span-2">
+              <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+                'profile.courtPhotos' | translate
+              }}</span>
+              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 pt-1">
+                @for (url of viewAttachmentUrls(); track url) {
+                  <img
+                    [src]="url"
+                    alt=""
+                    class="h-28 w-full rounded-lg object-cover border border-gray-100"
+                  />
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-4 pt-6 border-t border-gray-100">
+        <uikit-button
+          type="button"
+          [label]="'common.back' | translate"
+          [style]="{
+            width: '140px',
+            height: '44px',
+            borderRadius: '12px',
+            fontSize: '16px',
+            backgroundColor: '#f3f4f6',
+            color: '#374151',
+          }"
+          (clicked)="back()"
+        ></uikit-button>
+        <uikit-button
+          type="button"
+          [label]="'common.edit' | translate"
+          [style]="{ width: '140px', height: '44px', borderRadius: '12px', fontSize: '16px' }"
+          (clicked)="goEdit()"
+        ></uikit-button>
+      </div>
+    </div>
+  } @else if (loadFailed()) {
+    <p class="text-gray-600 px-4">{{ 'requests.loadFailed' | translate }}</p>
+    <uikit-button
+      type="button"
+      [label]="'common.back' | translate"
+      [style]="{ width: '140px', height: '44px', borderRadius: '12px' }"
+      (clicked)="back()"
+    ></uikit-button>
+  } @else {
+    <p class="text-gray-500 px-4">{{ 'common.noData' | translate }}</p>
+  }
+</div>

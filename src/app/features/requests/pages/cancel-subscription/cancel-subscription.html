@@ -1,0 +1,23 @@
+<div class="flex min-h-0 flex-1 flex-col">
+  <div class="grid grid-cols-12 gap-4 mb-6! items-end">
+    <div class="col-span-12 sm:col-span-6 md:col-span-4">
+      <uikit-input-text [emitOnBlur]="false"
+        [placeholder]="'common.search' | translate"
+        (input)="onSearchChange($event)"
+      ></uikit-input-text>
+    </div>
+  </div>
+
+  <div class="flex min-h-0 flex-1 flex-col overflow-hidden">
+    <uikit-table
+        class="min-h-0 flex-1"
+        [data]="rows()"
+        [columns]="tableColumns()"
+        [totalCount]="totalCount()"
+        [rowsPerPage]="pageSize()"
+        [paginator]="true"
+        (pageChanged)="onPageChange($event)"
+        (rowsPerPageChanged)="onRowsPerPageChanged($event)"
+    ></uikit-table>
+  </div>
+</div>

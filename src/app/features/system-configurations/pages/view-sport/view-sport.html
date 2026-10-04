@@ -1,0 +1,60 @@
+<div class="px-5! py-5! min-h-full flex flex-col">
+@if (sport(); as s) {
+    <div class="flex-1 flex flex-col justify-between gap-10">
+      <div class="flex flex-col gap-10 w-full">
+        @if (imageUrl(); as img) {
+          <div class="flex justify-center px-4">
+            <img
+              [src]="img"
+              alt=""
+              class="max-h-64 rounded-lg object-contain border border-gray-100"
+            />
+          </div>
+        }
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10 px-4">
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'profile.nameEn' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ s.name || '-' }}</span>
+          </div>
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'profile.nameAr' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ s.nameAr || '-' }}</span>
+          </div>
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2 md:col-span-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'profile.sportType' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ s.sportTypeName || '-' }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-end gap-4 pt-6 border-t border-gray-100">
+        <uikit-button
+          type="button"
+          [label]="'common.back' | translate"
+          [style]="{
+            width: '120px',
+            height: '40px',
+            borderRadius: '12px',
+            fontSize: '16px',
+            backgroundColor: '#f3f4f6',
+            color: '#374151',
+          }"
+          (clicked)="back()"
+        ></uikit-button>
+        <uikit-button
+          type="button"
+          [label]="'common.edit' | translate"
+          [style]="{ width: '120px', height: '40px', borderRadius: '12px', fontSize: '16px' }"
+          (clicked)="goEdit()"
+        ></uikit-button>
+      </div>
+    </div>
+  } @else {
+    <p class="text-gray-500 px-4">{{ 'common.noData' | translate }}</p>
+  }
+</div>

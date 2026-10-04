@@ -1,0 +1,8 @@
+@use 'abstract/index' as abstract;
+@use 'base/index' as base;
+// @use "components/index" as components;
+
+html,
+body {
+  font-family: base.$default-font-family;
+}

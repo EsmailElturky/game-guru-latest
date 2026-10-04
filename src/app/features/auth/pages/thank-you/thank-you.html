@@ -1,0 +1,20 @@
+<div class="thank-you-wrapper">
+  <div class="thank-you-card">
+    <img
+      src="assets/images/success.png"
+      alt="Success"
+      class="thank-you-success-image"
+    />
+    <h1 class="thank-you-heading">
+      {{ 'thankYou.headingThankYou' | translate }}<br />{{ 'thankYou.headingJoiningGameGuru' | translate }}
+    </h1>
+    <p class="thank-you-message">
+      {{ 'thankYou.message' | translate }}
+    </p>
+    <uikit-button
+      [label]="'thankYou.okGotIt' | translate"
+      class="thank-you-button"
+      (click)="goToLogin()"
+    ></uikit-button>
+  </div>
+</div>

@@ -1,0 +1,170 @@
+<div class="px-5! py-5! min-h-full flex justify-between flex-col gap-6">
+
+  @if (organization(); as org) {
+    <div class="flex flex-col xl:flex-row gap-8">
+      <div class="shrink-0 flex flex-col sm:flex-row xl:flex-col gap-4">
+        @if (imageUrl(org.logoName ); as logo) {
+          <div class="media-card">
+            <span class="media-label">{{ 'signup.venueLogo' | translate }}</span>
+            <img [src]="logo" [alt]="organizationName(org)" class="media-image" />
+          </div>
+        }
+        @if (imageUrl(org.coverThumbnail || org.coverName); as cover) {
+          <div class="media-card">
+            <span class="media-label">{{ 'signup.venueCover' | translate }}</span>
+            <img [src]="cover" [alt]="organizationName(org) + ' cover'" class="media-image" />
+          </div>
+        }
+      </div>
+
+      <div class="flex-1 min-w-0 flex flex-col gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
+          <div class="detail-field md:col-span-2">
+            <span class="detail-label">{{
+              (isArabic() ? 'profile.nameAr' : 'profile.nameEn') | translate
+            }}</span>
+            <span class="detail-value" [class.text-end]="isArabic()">{{ organizationName(org) }}</span>
+          </div>
+          <div class="detail-field">
+            <span class="detail-label">{{ 'profile.email' | translate }}</span>
+            <span class="detail-value">{{ displayOrDash(org.email) }}</span>
+          </div>
+          <div class="detail-field">
+            <span class="detail-label">{{ 'profile.phone' | translate }}</span>
+            <span class="detail-value">{{ phoneLine(org) }}</span>
+          </div>
+          <div class="detail-field">
+            <span class="detail-label">{{ 'profile.city' | translate }}</span>
+            <span class="detail-value">{{ displayOrDash(org.cityName) }}</span>
+          </div>
+          <div class="detail-field">
+            <span class="detail-label">ID</span>
+            <span class="detail-value">{{ org.id }}</span>
+          </div>
+          <div class="detail-field md:col-span-2">
+            <span class="detail-label">{{ 'profile.address' | translate }}</span>
+            <span class="detail-value">{{ displayOrDash(org.address) }}</span>
+          </div>
+          <div class="detail-field">
+            <span class="detail-label">{{ 'profile.mapUrl' | translate }}</span>
+            @if (mapsLink(org); as link) {
+              <a class="detail-value link" [href]="link" target="_blank" rel="noopener noreferrer">{{
+                link
+              }}</a>
+            } @else {
+              <span class="detail-value">—</span>
+            }
+          </div>
+          <div class="detail-field">
+            <span class="detail-label">Coordinates</span>
+            <span class="detail-value">{{ coordinatesLine(org) }}</span>
+          </div>
+
+          @if (org.resgistrationName.trim() || org.registrationNumber.trim()) {
+            <div class="detail-field">
+              <span class="detail-label">{{ 'profile.registrationName' | translate }}</span>
+              <span class="detail-value">{{ displayOrDash(org.resgistrationName) }}</span>
+            </div>
+            <div class="detail-field">
+              <span class="detail-label">{{ 'profile.registrationNumber' | translate }}</span>
+              <span class="detail-value">{{ displayOrDash(org.registrationNumber) }}</span>
+            </div>
+          }
+          @if (org.tradeMarkName.trim() || org.taxNumber.trim()) {
+            <div class="detail-field">
+              <span class="detail-label">{{ 'profile.tradeMarkName' | translate }}</span>
+              <span class="detail-value">{{ displayOrDash(org.tradeMarkName) }}</span>
+            </div>
+            <div class="detail-field">
+              <span class="detail-label">{{ 'profile.taxNumber' | translate }}</span>
+              <span class="detail-value">{{ displayOrDash(org.taxNumber) }}</span>
+            </div>
+          }
+
+          <div class="detail-field md:col-span-2">
+            <span class="detail-label">{{ 'signup.sportTypes' | translate }}</span>
+            <div class="detail-value flex flex-wrap gap-2">
+              @for (sport of org.sports; track sport.id) {
+                <span class="sport-chip">{{ sport.name }}</span>
+              } @empty {
+                —
+              }
+            </div>
+          </div>
+
+          <div class="detail-field md:col-span-2">
+            <span class="detail-label">{{
+              (isArabic() ? 'profile.descriptionAr' : 'profile.descriptionEn') | translate
+            }}</span>
+            <p
+              class="detail-value whitespace-pre-wrap m-0!"
+            >
+              {{ organizationDescription(org) }}
+            </p>
+          </div>
+          <div class="detail-field md:col-span-2">
+            <span class="detail-label">{{ isArabic() ? 'نبذة' : 'About' }}</span>
+            <p
+              class="detail-value whitespace-pre-wrap m-0!"
+            >
+              {{ organizationAbout(org) }}
+            </p>
+          </div>
+        </div>
+
+        @if (org.attachments.length) {
+          <div class="flex flex-col gap-3">
+            <span class="detail-label">{{ 'signup.venueGallery' | translate }}</span>
+            <div class="gallery-grid">
+              @for (file of org.attachments; track file.attachmentName) {
+                @if (imageUrl(file.thumbnail || file.attachmentName); as src) {
+                  <figure class="gallery-item">
+                    <img [src]="src" [alt]="file.attachmentName" class="gallery-image" />
+                    <figcaption class="gallery-caption" [title]="file.attachmentName">
+                      {{ file.attachmentName }}
+                      <span class="gallery-meta">{{ file.fileSizeName }}</span>
+                    </figcaption>
+                  </figure>
+                }
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-4 pt-6 border-t border-gray-100 mt-auto">
+      <uikit-button
+        type="button"
+        [label]="'common.back' | translate"
+        [style]="{
+          width: '140px',
+          height: '44px',
+          borderRadius: '12px',
+          fontSize: '16px',
+          backgroundColor: '#f3f4f6',
+          color: '#374151',
+        }"
+        (clicked)="back()"
+      ></uikit-button>
+      <uikit-button
+        type="button"
+        [label]="'common.edit' | translate"
+        [style]="{ width: '140px', height: '44px', borderRadius: '12px', fontSize: '16px' }"
+        (clicked)="goEdit()"
+      ></uikit-button>
+    </div>
+  } @else if (loadFailed()) {
+    <p class="text-gray-600">{{ 'requests.loadFailed' | translate }}</p>
+    <uikit-button
+      type="button"
+      [label]="'common.back' | translate"
+      [style]="{ width: '140px', height: '44px', borderRadius: '12px' }"
+      (clicked)="back()"
+    ></uikit-button>
+  } @else {
+      <p class="text-gray-500">{{ 'common.noData' | translate }}</p>
+    }
+</div>
+
+

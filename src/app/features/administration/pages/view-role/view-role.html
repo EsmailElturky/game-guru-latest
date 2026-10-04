@@ -1,0 +1,69 @@
+<div class="px-5! py-5! min-h-full flex flex-col">
+@if (role(); as r) {
+    <div class="flex-1 flex flex-col justify-between gap-10">
+      <div class="flex flex-col gap-10 w-full px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'profile.nameEn' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ r.name || '-' }}</span>
+          </div>
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'profile.nameAr' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ r.nameAr || '-' }}</span>
+          </div>
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'table.status' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ r.statusName || '-' }}</span>
+          </div>
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'navigation.users' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ r.userCount || '-' }}</span>
+          </div>
+        </div>
+        @if (permissionLines().length > 0) {
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'navigation.permissions' | translate
+            }}</span>
+            <ul class="list-disc pl-5 text-lg text-gray-800 space-y-1">
+              @for (line of permissionLines(); track line) {
+                <li>{{ line }}</li>
+              }
+            </ul>
+          </div>
+        }
+      </div>
+      <div class="flex justify-end gap-4 pt-6 border-t border-gray-100">
+        <uikit-button
+          type="button"
+          [label]="'common.back' | translate"
+          [style]="{
+            width: '140px',
+            height: '44px',
+            borderRadius: '12px',
+            fontSize: '16px',
+            backgroundColor: '#f3f4f6',
+            color: '#374151',
+          }"
+          (clicked)="back()"
+        ></uikit-button>
+        <uikit-button
+          type="button"
+          [label]="'common.edit' | translate"
+          [style]="{ width: '140px', height: '44px', borderRadius: '12px', fontSize: '16px' }"
+          (clicked)="goEdit()"
+        ></uikit-button>
+      </div>
+    </div>
+  } @else {
+    <p class="text-gray-500 px-4">{{ 'common.noData' | translate }}</p>
+  }
+</div>

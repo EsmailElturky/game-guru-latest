@@ -1,0 +1,40 @@
+<div class="px-5! py-5! min-h-full flex flex-col flex-1">
+  <div class="flex justify-end items-center mb-6">
+    <uikit-button
+      [icon]="'pi pi-download'"
+      [style]="{
+        backgroundColor: 'var(--surface-0)',
+        color: 'var(--primary-color)',
+        padding: '3px',
+      }"
+      (click)="exportAudits()"
+    ></uikit-button>
+  </div>
+
+  <!-- Search and Filters Section -->
+  <div class="grid grid-cols-12 gap-4 mb-6! mt-6! items-end">
+    <div class="col-span-12 sm:col-span-6 md:col-span-4">
+      <uikit-input-text [emitOnBlur]="false"
+        [placeholder]="'common.search' | translate"
+        (input)="onSearchChange($event)"
+      ></uikit-input-text>
+    </div>
+  </div>
+
+  <!-- Table Section -->
+  <div class="flex-1 min-h-0 overflow-hidden">
+    <uikit-table
+      class="h-full"
+      [data]="audits()"
+      [columns]="tableColumns()"
+      [totalCount]="10"
+      [rowsPerPage]="10"
+      (selectionChanged)="onSelectionChange($event)"
+      (pageChanged)="onPageChange($event)"
+      (sortChanged)="onSortChange($event)"
+      [dropdownItems]="tableDropdownItems()"
+      [paginator]="true"
+      [rowsPerPageOptions]="[2, 4, 6]"
+    ></uikit-table>
+  </div>
+</div>

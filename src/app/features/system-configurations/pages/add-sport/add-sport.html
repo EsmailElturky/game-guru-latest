@@ -1,0 +1,71 @@
+<div class="px-5! py-5! min-h-full flex flex-col">
+  <form [formGroup]="sportForm" class="flex flex-col justify-between gap-10 flex-1">
+    <div>
+      <div class="flex justify-center">
+        <div
+          class="w-full max-w-3xl bg-(--gray-50) rounded-xl p-8 border-2 border-dashed border-gray-200"
+        >
+          <uikit-file-input
+            [multiple]="false"
+            formControlName="ImageFile"
+            [validation]="fileValidation"
+            [placeholder]="'profile.uploadPlaceholder' | translate"
+          ></uikit-file-input>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
+        <div class="flex flex-col gap-2">
+          <label class="font-bold text-sm text-gray-700">{{ 'profile.nameEn' | translate }}</label>
+          <uikit-input-text [emitOnBlur]="false"
+            formControlName="Name"
+            [placeholder]="'profile.nameEn' | translate"
+          ></uikit-input-text>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label class="font-bold text-sm text-gray-700">{{ 'profile.nameAr' | translate }}</label>
+          <uikit-input-text [emitOnBlur]="false"
+            formControlName="NameAr"
+            [placeholder]="'profile.nameAr' | translate"
+          ></uikit-input-text>
+        </div>
+
+        <div class="flex flex-col gap-2 md:col-span-2">
+          <label class="font-bold text-sm text-gray-700">{{
+            'profile.sportType' | translate
+          }}</label>
+          <uikit-select
+            formControlName="SportType"
+            [options]="sportTypeOptions()!"
+            optionLabel="name"
+            optionValue="id"
+            [placeholder]="'profile.sportType' | translate"
+          ></uikit-select>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-4 pt-4 border-t border-gray-100 mt-4!">
+      <uikit-button
+        [label]="'common.cancel' | translate"
+        [style]="{
+          width: '120px',
+          height: '40px',
+          borderRadius: '12px',
+          fontSize: '16px',
+          backgroundColor: '#f3f4f6',
+          color: '#374151',
+        }"
+        (clicked)="cancel()"
+      ></uikit-button>
+
+      <uikit-button
+        type="submit"
+        [label]="(sportId() ? 'common.edit' : 'common.save') | translate"
+        [style]="{ width: '120px', height: '40px', borderRadius: '12px', fontSize: '16px' }"
+        (clicked)="save()"
+      ></uikit-button>
+    </div>
+  </form>
+</div>

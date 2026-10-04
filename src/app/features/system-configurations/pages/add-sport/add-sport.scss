@@ -1,0 +1,12 @@
+@use 'abstract/index' as abstracts;
+:host {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+@include abstracts.until($point: abstracts.$point-sm) {
+  :host {
+    height: auto;
+  }
+}

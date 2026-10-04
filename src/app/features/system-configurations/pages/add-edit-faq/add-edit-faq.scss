@@ -1,0 +1,7 @@
+@use 'abstract/index' as abstracts;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}

@@ -1,0 +1,84 @@
+<div class="px-5! py-5! min-h-full flex flex-col flex-1">
+  <div class="flex justify-end items-center mb-6">
+    <uikit-button
+      [icon]="'pi pi-download'"
+      [style]="{
+        backgroundColor: 'var(--surface-0)',
+        color: 'var(--primary-color)',
+        padding: '3px',
+      }"
+      (click)="exportBookings()"
+    ></uikit-button>
+  </div>
+
+  <div class="grid grid-cols-12 gap-4 mb-6! mt-6! items-end">
+    <div class="col-span-12 sm:col-span-6 md:col-span-3">
+      <uikit-input-text [emitOnBlur]="false"
+        [placeholder]="'common.search' | translate"
+        (input)="onSearchChange($event)"
+      ></uikit-input-text>
+    </div>
+    <div class="col-span-12 sm:col-span-6 md:col-span-3">
+      <uikit-select
+        [options]="organizationOptions()"
+        [value]="selectedOrganization()"
+        optionLabel="name"
+        optionValue="id"
+        [placeholder]="'menu.organizations' | translate"
+        (valueChange)="onOrganizationChange($event)"
+        class="booking"
+      ></uikit-select>
+    </div>
+    <div class="col-span-12 sm:col-span-6 md:col-start-8 md:col-span-5 flex justify-end">
+      <uikit-button
+        [label]="'common.clear' | translate"
+        [style]="{
+          borderRadius: '12px',
+          paddingLeft: '20px',
+          paddingRight: '20px',
+        }"
+        class="mx-2"
+        (click)="clearSearch()"
+      ></uikit-button>
+      <uikit-button
+        [label]="(viewMode() === 'list' ? 'booking.calendarView' : 'booking.listView') | translate"
+        [style]="{
+          borderRadius: '12px',
+          paddingLeft: '20px',
+          paddingRight: '20px',
+        }"
+        class="mr-2"
+        (click)="toggleView()"
+      ></uikit-button>
+      @if (!authService.isAdminApp() && perms.canAdd()) {
+        <uikit-button
+          [label]="'booking.addNewBooking' | translate"
+          [style]="{
+            borderRadius: '12px',
+            paddingLeft: '20px',
+            paddingRight: '20px',
+          }"
+          [routerLink]="['/booking/add-new-booking']"
+        ></uikit-button>
+      }
+    </div>
+  </div>
+
+  <div class="flex-1 min-h-0 overflow-hidden">
+    @if (viewMode() === 'list') {
+      <app-booking-list-view
+        class="h-full"
+        [searchQuery]="searchQuery()"
+        [selectedOrganization]="selectedOrganization()!"
+        (toggleView)="toggleView()"
+      ></app-booking-list-view>
+    } @else {
+      <app-booking-calendar-view
+        class="h-full"
+        (toggleView)="toggleView()"
+        [searchQuery]="searchQuery()"
+        [selectedOrganization]="selectedOrganization()!"
+      ></app-booking-calendar-view>
+    }
+  </div>
+</div>

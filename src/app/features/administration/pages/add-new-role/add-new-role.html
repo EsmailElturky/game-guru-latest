@@ -1,0 +1,67 @@
+<div class="px-5! py-5! flex flex-col flex-1 font-primary">
+<form [formGroup]="roleForm" class="flex flex-col flex-1 justify-between">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+      <!-- Left Side: Form Fields -->
+      <div class="flex flex-col gap-8">
+        <div class="flex flex-col gap-2">
+          <label class="font-bold text-sm text-gray-700">{{
+            'navigation.roleNameEn' | translate
+          }}</label>
+          <uikit-input-text [emitOnBlur]="false"
+            formControlName="name"
+            [placeholder]="'navigation.roleNameEn' | translate"
+          ></uikit-input-text>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label class="font-bold text-sm text-gray-700">{{
+            'navigation.roleNameAr' | translate
+          }}</label>
+          <uikit-input-text [emitOnBlur]="false"
+            formControlName="nameAr"
+            [placeholder]="'navigation.roleNameAr' | translate"
+          ></uikit-input-text>
+        </div>
+      </div>
+
+      <!-- Right Side: Permissions Multi-select -->
+      <div class="flex flex-col gap-4">
+        <div class="flex items-center justify-between mb-2">
+          <span class="font-bold text-gray-800">{{ 'navigation.permissions' | translate }}</span>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <uikit-multi-select
+            [options]="permissionsOptions()"
+            optionLabel="label"
+            optionValue="value"
+            formControlName="permissions"
+            [group]="true"
+            [placeholder]="'navigation.permissions' | translate"
+          ></uikit-multi-select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Button -->
+    <div class="flex justify-end gap-4 pt-8 border-t border-gray-100 mt-auto pb-4">
+      <uikit-button
+        (click)="cancel()"
+        [label]="'common.cancel' | translate"
+        [style]="{
+          width: '140px',
+          height: '44px',
+          borderRadius: '12px',
+          fontSize: '16px',
+          backgroundColor: '#f3f4f6',
+          color: '#374151',
+        }"
+      ></uikit-button>
+      <uikit-button
+        (click)="save()"
+        [label]="'common.save' | translate"
+        [style]="{ width: '140px', height: '44px', borderRadius: '12px', fontSize: '16px' }"
+      ></uikit-button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,109 @@
+// Font mixin for setting font-size, font-weight, and line-height
+@mixin apply-font-size($value) {
+  // Convert pixel value to rem (base 16px)
+  $rem-size: calc($value / 16);
+
+  // Calculate min and max sizes with a small buffer
+  $min-size: $rem-size - 0.125;
+  $max-size: $rem-size + 0.125;
+  font-size: clamp(
+    #{$min-size}rem,
+    // Minimum size
+    #{$rem-size}vw,
+    // Preferred size (scales with viewport width)
+    #{$max-size}rem // Maximum size
+  ) !important;
+}
+
+@mixin font($size, $weight, $lineHeight: 1.6) {
+  @include apply-font-size($size);
+  font-weight: $weight;
+  line-height: $lineHeight;
+}
+
+/**
+ * Responsive Font Size Mixin
+ *
+ * Generates a series of utility classes for responsive typography using CSS clamp().
+ * Creates classes from .font-10 to .font-60 that scale between min and max sizes.
+ *
+ * How it works:
+ * 1. Generates classes for font sizes from 10px to 60px (inclusive)
+ * 2. Converts pixel values to rem (base 16px)
+ * 3. Creates a responsive size that scales with viewport width (vw)
+ * 4. Uses clamp() to set minimum and maximum bounds
+ *
+ * Example usage in HTML:
+ *   <p class="font-16">This text will be responsive</p>
+ *
+ * The formula used:
+ *   - Minimum size: (target-size - 0.125)rem
+ *   - Preferred size: (target-size/16)vw
+ *   - Maximum size: (target-size + 0.125)rem
+ *
+ * Note: The !important flag ensures these utility classes take precedence
+ */
+@mixin responsive-font-size() {
+  @for $size from 10 through 60 {
+    .fs-#{$size} {
+      @include apply-font-size($size);
+    }
+  }
+}
+
+/*
+* Responsive Font Weight Mixin
+*/
+@mixin responsive-font-weight($font-weights: ()) {
+  @each $weight, $weight-value in $font-weights {
+    .fw-#{$weight} {
+      font-weight: $weight-value;
+    }
+  }
+}
+
+// Mixin for input placeholder styling
+@mixin placeholder-color {
+  color: #5d758e !important;
+}
+
+// Mixin for input hover state
+@mixin hover-border {
+  border: 1px solid #9eb3c2 !important;
+}
+
+// Mixin for input disabled state
+@mixin disabled-state {
+  opacity: 0.6 !important;
+}
+
+// Mixin for input readonly state
+@mixin readonly-state {
+  pointer-events: none !important;
+}
+
+// Mixin for input focus state
+@mixin focus-state {
+  outline: unset !important;
+  border-color: #476ebf !important;
+  box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.25) !important;
+}
+
+// Colors/input error state
+@mixin error-state {
+  border: 1px solid #f93d3d !important;
+}
+
+// Media query mixin for min-width
+@mixin from($point) {
+  @media screen and (min-width: #{$point}) {
+    @content;
+  }
+}
+
+// Media query mixin for max-width
+@mixin until($point) {
+  @media screen and (max-width: #{$point}) {
+    @content;
+  }
+}

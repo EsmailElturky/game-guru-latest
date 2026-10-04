@@ -1,0 +1,15 @@
+.profile {
+  background: var(--gray-400);
+  border-radius: 1rem;
+  padding: 2rem 0.5rem;
+  cursor: pointer;
+  min-width: 16.5rem;
+}
+.logout {
+  cursor: pointer;
+  &:hover {
+    background-color: var(--surface-0) !important;
+    border: 1px solid #e6e7ec !important;
+    border-radius: 12px !important;
+  }
+}

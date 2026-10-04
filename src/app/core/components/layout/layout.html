@@ -1,0 +1,33 @@
+<div appRtl class="flex p-0 m-0 w-full h-screen overflow-hidden">
+  <!-- Sidebar 300px on md and 16px on sm -->
+  <div class="overflow-y-auto overflow-x-hidden h-full md:w-[300px] w-0">
+    <app-side-bar
+      [visible]="isSidebarVisible()"
+      (toggleSidebar)="isSidebarVisible.set($event)"
+      [position]="isEnglish()! ? 'left' : 'right'"
+    ></app-side-bar>
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex flex-col overflow-hidden h-full flex-1">
+    <!-- Navigation Bar -->
+    <div class="w-full h-23 flex items-center justify-start">
+      <uikit-button
+        class="md:hidden! mx-2!"
+        [style]="{ width: 'clamp(10px, 10vw, 180px)' }"
+        [icon]="isEnglish()! ? 'pi pi-angle-right' : 'pi pi-angle-left'"
+        (click)="toggleSidebar()"
+      ></uikit-button>
+      <app-nav-bar></app-nav-bar>
+    </div>
+
+    <!-- Router Outlet: flex column + min-h-0 so routed pages can use flex-1 / h-full -->
+    <div
+      class="flex w-full min-h-0 flex-1 flex-col overflow-x-hidden bg-(--surface-500) p-4!"
+    >
+      <div class="flex min-h-0 flex-1 flex-col bg-(--surface-0) overflow-y-auto ">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>

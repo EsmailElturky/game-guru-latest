@@ -1,0 +1,111 @@
+<div class="h-full flex flex-col">
+  <div class="flex-1 min-h-0 overflow-hidden">
+    <uikit-table
+      class="h-full"
+      [paginator]="true"
+      [lazy]="true"
+      [rowsPerPageOptions]="[10, 20, 50]"
+      [data]="tableData()"
+      [columns]="tableColumns()"
+      [totalCount]="totalCount()"
+      [rowsPerPage]="pageSize()"
+      (selectionChanged)="onSelectionChange($event)"
+      (pageChanged)="onPageChange($event)"
+      (sortChanged)="onSortChange($event)"
+      (rowsPerPageChanged)="onRowsPerPageChanged($event)"
+      (rowClick)="onRowClick($event)"
+      [dropdownItems]="tableDropdownItems()"
+    ></uikit-table>
+  </div>
+
+  <p-dialog
+    [visible]="bookingActionDialogVisible()"
+    (visibleChange)="onBookingActionDialogVisibleChange($event)"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [style]="{ width: '480px', borderRadius: '24px' }"
+    [dismissableMask]="true"
+    [header]="
+      bookingActionDialogMode() === 'assign'
+        ? ('booking.assignCoachTitle' | translate)
+        : ('booking.cancelBookingTitle' | translate)
+    "
+  >
+    @if (bookingActionDialogMode() === 'assign') {
+      <form [formGroup]="assignCoachForm" class="flex flex-col gap-4 p-2">
+        <div class="flex flex-col gap-2">
+          <label class="font-bold text-sm text-gray-700">{{
+            'booking.selectCoach' | translate
+          }}</label>
+          <uikit-select
+            formControlName="coachId"
+            [options]="coachOptions()"
+            [optionLabel]="'name'"
+            [optionValue]="'id'"
+            [placeholder]="'booking.selectCoach' | translate"
+          ></uikit-select>
+        </div>
+        <div class="flex justify-end gap-3 pt-2 border-t border-gray-100">
+          <uikit-button
+            [label]="'common.cancel' | translate"
+            variant="outline"
+            [outlined]="true"
+            type="button"
+            (click)="closeBookingActionDialog()"
+            [style]="{ minWidth: '100px', height: '44px', borderRadius: '12px' }"
+          ></uikit-button>
+          <uikit-button
+            [label]="'common.save' | translate"
+            type="button"
+            [loading]="actionDialogSubmitting()"
+            (click)="submitAssignCoach()"
+            [style]="{
+              minWidth: '120px',
+              height: '44px',
+              borderRadius: '12px',
+              backgroundColor: '#3E8F96',
+              fontSize: '16px',
+            }"
+          ></uikit-button>
+        </div>
+      </form>
+    } @else if (bookingActionDialogMode() === 'cancel') {
+      <form [formGroup]="cancelBookingForm" class="flex flex-col gap-4 p-2">
+        <div class="flex flex-col gap-2">
+          <label class="font-bold text-sm text-gray-700" for="cancellation-reason">{{
+            'booking.cancellationReason' | translate
+          }}</label>
+          <uikit-text-area [emitOnBlur]="false"
+            id="cancellation-reason"
+            formControlName="reason"
+            [rows]="5"
+            [placeholder]="'booking.cancellationReasonPlaceholder' | translate"
+            class="w-full"
+          ></uikit-text-area>
+        </div>
+        <div class="flex justify-end gap-3 pt-2 border-t border-gray-100">
+          <uikit-button
+            [label]="'common.cancel' | translate"
+            variant="outline"
+            [outlined]="true"
+            type="button"
+            (click)="closeBookingActionDialog()"
+            [style]="{ minWidth: '100px', height: '44px', borderRadius: '12px' }"
+          ></uikit-button>
+          <uikit-button
+            [label]="'common.submit' | translate"
+            [loading]="actionDialogSubmitting()"
+            (click)="submitCancelBooking()"
+            [style]="{
+              minWidth: '120px',
+              height: '44px',
+              borderRadius: '12px',
+              fontSize: '16px',
+            }"
+          ></uikit-button>
+        </div>
+      </form>
+    }
+  </p-dialog>
+</div>

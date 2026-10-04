@@ -1,0 +1,127 @@
+// Bootstrap Grid Classes for Tailwind Project
+@use '../abstract/index' as abstract;
+@use 'sass:map';
+
+// Breakpoints
+$breakpoints: (
+  'sm': abstract.$point-sm,
+  'md': abstract.$point-md,
+  'lg': abstract.$point-lg,
+  'xl': abstract.$point-xl,
+  'xxl': abstract.$point-xxl,
+);
+
+// Mixin for media queries
+@mixin media-breakpoint-up($breakpoint) {
+  @media (min-width: map.get($breakpoints, $breakpoint)) {
+    @content;
+  }
+}
+
+// Container
+.container {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 15px;
+  padding-left: 15px;
+
+  @include media-breakpoint-up('sm') {
+    max-width: 540px;
+  }
+
+  @include media-breakpoint-up('md') {
+    max-width: 720px;
+  }
+
+  @include media-breakpoint-up('lg') {
+    max-width: 960px;
+  }
+
+  @include media-breakpoint-up('xl') {
+    max-width: 1140px;
+  }
+
+  @include media-breakpoint-up('xxl') {
+    max-width: 1320px;
+  }
+}
+
+.container-fluid {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+// Row
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+// Column base
+.col {
+  flex: 0 0 auto;
+  width: 100%;
+}
+
+// Auto columns
+.col-auto {
+  flex: 0 0 auto;
+  width: auto;
+}
+
+// Generate column classes for all breakpoints
+@each $breakpoint, $breakpoint-value in $breakpoints {
+  @include media-breakpoint-up($breakpoint) {
+    // Auto width columns
+    .col-#{$breakpoint}-auto {
+      flex: 0 0 auto;
+      width: auto;
+    }
+
+    // Numbered columns (1-12)
+    @for $i from 1 through 12 {
+      .col-#{$breakpoint}-#{$i} {
+        flex: 0 0 calc(#{$i} / 12 * 100%) !important;
+        max-width: calc(#{$i} / 12 * 100%) !important;
+      }
+    }
+
+    // Offset classes
+    @for $i from 1 through 11 {
+      .offset-#{$breakpoint}-#{$i} {
+        margin-left: calc(#{$i} / 12 * 100%);
+      }
+    }
+  }
+}
+
+// Extra small (xs) - no breakpoint prefix
+@for $i from 1 through 12 {
+  .col-#{$i} {
+    flex: 0 0 calc(#{$i} / 12 * 100%);
+    max-width: calc(#{$i} / 12 * 100%);
+  }
+}
+
+@for $i from 1 through 11 {
+  .offset-#{$i} {
+    margin-left: calc(#{$i} / 12 * 100%);
+  }
+}
+
+// Gutters
+@for $i from 1 through 10 {
+  .g-#{$i} {
+    gap: #{$i * 0.25}rem;
+  }
+  .gx-#{$i} {
+    column-gap: #{$i * 0.25}rem;
+  }
+  .gy-#{$i} {
+    row-gap: #{$i * 0.25}rem;
+  }
+}

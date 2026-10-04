@@ -1,0 +1,9 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.table {
+  height: calc(100vh - 320px) !important;
+}

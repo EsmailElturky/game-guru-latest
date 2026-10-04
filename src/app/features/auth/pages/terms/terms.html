@@ -1,0 +1,46 @@
+<div class="terms-container">
+  <div class="terms-header animate-fade-in">
+    <div class="back-link" (click)="goBack()">
+      <i class="pi pi-arrow-left"></i>
+      <span>{{ 'common.back' | translate }}</span>
+    </div>
+    <div class="header-main">
+      <h1>{{ 'auth.termsAndPrivacy' | translate }}</h1>
+      <p class="subtitle">{{ 'auth.termsSubTitle' | translate }}</p>
+    </div>
+  </div>
+
+  <div class="terms-body">
+    @if (loading()) {
+      <div class="loading-wrapper flex justify-center items-center h-64">
+        <div class="loader"></div>
+      </div>
+    } @else if (terms().length) {
+      <div class="terms-list">
+        @for (term of terms(); track term.id; let i = $index) {
+          <article class="term-card animate-slide-up" [style.animation-delay]="i * 100 + 'ms'">
+            <div class="term-number" aria-hidden="true">{{ i + 1 }}</div>
+            <div class="term-content">
+              <h2 class="term-title">{{ term.title }}</h2>
+              <div class="description-text" [innerHTML]="term.description | safeHtml"></div>
+            </div>
+          </article>
+        }
+      </div>
+    } @else {
+      <div class="terms-empty flex flex-col items-center justify-center h-64 gap-3 text-center text-surface-500">
+        <i class="pi pi-file text-4xl" aria-hidden="true"></i>
+        <p class="m-0 text-base">{{ 'auth.termsNotAvailable' | translate }}</p>
+      </div>
+    }
+  </div>
+
+  <div class="terms-actions animate-fade-in">
+    <uikit-button
+      [label]="'common.backToLogin' | translate"
+      (click)="goBack()"
+      variant="outline"
+      [style]="{ width: '220px', height: '52px', borderRadius: '14px', fontWeight: '700' }"
+    ></uikit-button>
+  </div>
+</div>

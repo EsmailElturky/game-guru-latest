@@ -1,0 +1,54 @@
+<div class="px-5! py-5! flex flex-1 flex-col justify-between min-h-full">
+  <div class="flex justify-end items-center mb-6">
+    <uikit-button
+      [icon]="'pi pi-download'"
+      [style]="{
+        backgroundColor: 'var(--surface-0)',
+        color: 'var(--primary-color)',
+        padding: '3px',
+      }"
+      (click)="exportFacilities()"
+    ></uikit-button>
+  </div>
+
+  <!-- Search and Filters Section -->
+  <div class="grid grid-cols-12 gap-4 mb-6! mt-6! items-end">
+    <div class="col-span-12 sm:col-span-6 md:col-span-4">
+      <uikit-input-text [emitOnBlur]="false"
+        [placeholder]="'common.search' | translate"
+        (input)="onSearchChange($event)"
+      ></uikit-input-text>
+    </div>
+    @if (perms.canAdd()) {
+      <div class="col-span-12 sm:col-span-6 md:col-start-11 md:col-span-2 flex justify-end">
+        <uikit-button
+          [label]="'navigation.add-facility' | translate"
+          [style]="{
+            borderRadius: '12px',
+            paddingLeft: '20px',
+            paddingRight: '20px',
+          }"
+          (click)="addFacility()"
+        ></uikit-button>
+      </div>
+    }
+  </div>
+
+  <!-- Table Section -->
+  <div class="flex-1 min-h-0 overflow-hidden">
+    <uikit-table
+      class="h-full"
+      [data]="facilities()"
+      [columns]="tableColumns()"
+      [totalCount]="totalCount()"
+      [rowsPerPage]="pageSize()"
+      (selectionChanged)="onSelectionChange($event)"
+      (pageChanged)="onPageChange({ page: $event })"
+      (rowsPerPageChanged)="onRowsPerPageChanged($event)"
+      (sortChanged)="onSortChange($event)"
+      (rowClick)="viewFacility($event.id)"
+      [dropdownItems]="tableDropdownItems()"
+      [paginator]="true"
+    ></uikit-table>
+  </div>
+</div>

@@ -1,0 +1,176 @@
+<div class="px-5! py-5! min-h-full flex flex-col justify-between flex-1">
+<form [formGroup]="promoCodeForm" class="flex flex-col justify-between gap-10 flex-1">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
+      <!-- Name -->
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.nameEn' | translate }}</label>
+        <uikit-input-text [emitOnBlur]="false"
+          formControlName="Name"
+          [placeholder]="'profile.nameEn' | translate"
+        ></uikit-input-text>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.nameAr' | translate }}</label>
+        <uikit-input-text [emitOnBlur]="false"
+          formControlName="NameAr"
+          [placeholder]="'profile.nameAr' | translate"
+        ></uikit-input-text>
+      </div>
+
+      <!-- Dates -->
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.startDate' | translate }}</label>
+        <uikit-date-picker
+          [placeholder]="'profile.startDate' | translate"
+          [minDate]="today"
+          formControlName="StartDate"
+          [showIcon]="true"
+        ></uikit-date-picker>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.endDate' | translate }}</label>
+        <uikit-date-picker
+          [placeholder]="'profile.endDate' | translate"
+          formControlName="EndDate"
+          [minDate]="minDate"
+          [showIcon]="true"
+        ></uikit-date-picker>
+      </div>
+
+      <!-- Promo Code -->
+      <div class="flex flex-col gap-2 md:col-span-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.promoCode' | translate }}</label>
+        <uikit-input-text [emitOnBlur]="false"
+          formControlName="PromotionCode"
+          [placeholder]="'profile.promoCode' | translate"
+        ></uikit-input-text>
+        <div class="flex gap-2 mt-2">
+          <uikit-button
+            type="button"
+            [label]="'profile.generateCode' | translate"
+            [style]="{ height: '34px', borderRadius: '8px', fontSize: '12px' }"
+            (click)="addCode()"
+          ></uikit-button>
+        </div>
+      </div>
+
+      <!-- Promo Type and Values -->
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.promoType' | translate }}</label>
+        <uikit-select
+          formControlName="PromotionType"
+          [options]="promoTypeOptions()"
+          optionLabel="label"
+          optionValue="value"
+          [placeholder]="'profile.promoType' | translate"
+        ></uikit-select>
+      </div>
+
+      @if (promoCodeForm.get('PromotionType')?.value === 1) {
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{
+          'profile.fixedValue' | translate
+        }}</label>
+        <uikit-input-number
+          formControlName="FixedValue"
+          [min]="0"
+          [placeholder]="'profile.fixedValue' | translate"
+        ></uikit-input-number>
+      </div>
+      } @else {
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{
+          'profile.percentage' | translate
+        }}</label>
+        <uikit-input-number
+          formControlName="Percentage"
+          [min]="0"
+          [max]="100"
+          [placeholder]="'profile.percentage' | translate"
+        ></uikit-input-number>
+      </div>
+      }
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.maxAmount' | translate }}</label>
+        <uikit-input-number
+          formControlName="MaxAmount"
+          [min]="0"
+          [placeholder]="'profile.maxAmount' | translate"
+        ></uikit-input-number>
+      </div>
+
+      <!-- Summary -->
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.summaryEn' | translate }}</label>
+        <uikit-input-text [emitOnBlur]="false"
+          formControlName="Summary"
+          [placeholder]="'profile.summaryEn' | translate"
+        ></uikit-input-text>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.summaryAr' | translate }}</label>
+        <uikit-input-text [emitOnBlur]="false"
+          formControlName="SummaryAr"
+          [placeholder]="'profile.summaryAr' | translate"
+        ></uikit-input-text>
+      </div>
+
+      <!-- Description -->
+      <div class="flex flex-col gap-2 md:col-span-2">
+        <label class="font-bold text-sm text-gray-700">{{
+          'profile.descriptionEn' | translate
+        }}</label>
+        <uikit-input-text [emitOnBlur]="false"
+          formControlName="Description"
+          [placeholder]="'profile.descriptionEn' | translate"
+        ></uikit-input-text>
+      </div>
+
+      <div class="flex flex-col gap-2 md:col-span-2">
+        <label class="font-bold text-sm text-gray-700">{{
+          'profile.descriptionAr' | translate
+        }}</label>
+        <uikit-input-text [emitOnBlur]="false"
+          formControlName="DescriptionAr"
+          [placeholder]="'profile.descriptionAr' | translate"
+        ></uikit-input-text>
+      </div>
+
+      <!-- File Upload -->
+      <div class="flex justify-center md:col-span-2 pt-2">
+        <div class="w-full bg-(--gray-50) rounded-xl p-8 border-2 border-dashed border-gray-200">
+          <uikit-file-input
+            formControlName="ImageFile"
+            [multiple]="false"
+            [validation]="fileValidation"
+            [placeholder]="'profile.uploadPlaceholder' | translate"
+          ></uikit-file-input>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-4 pt-4 border-t border-gray-100 mt-auto mb-4!">
+      <uikit-button
+        [label]="'common.cancel' | translate"
+        [style]="{
+          width: '120px',
+          height: '40px',
+          borderRadius: '12px',
+          fontSize: '16px',
+          backgroundColor: '#f3f4f6',
+          color: '#374151',
+        }"
+        (click)="cancel()"
+      ></uikit-button>
+      <uikit-button
+        [label]="'common.save' | translate"
+        [disabled]="promoCodeForm.invalid"
+        (click)="save()"
+        [style]="{ width: '120px', height: '40px', borderRadius: '12px', fontSize: '16px' }"
+      ></uikit-button>
+    </div>
+  </form>
+</div>

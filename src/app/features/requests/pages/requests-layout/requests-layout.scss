@@ -1,0 +1,10 @@
+:host ::ng-deep .requests-tab--active {
+  color: var(--primary-color, #3e8f96);
+  border-bottom-color: var(--primary-color, #3e8f96) !important;
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}

@@ -1,0 +1,46 @@
+<p-dialog
+  [(visible)]="visible"
+  [header]="'profile.editLogo' | translate"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ width: '500px', borderRadius: '24px' }"
+>
+  <form [formGroup]="logoForm" class="flex flex-col gap-6 p-4">
+    <div class="flex flex-col gap-2">
+      <p class="text-gray-500 text-sm">
+        {{ 'profile.uploadPlaceholder' | translate }}
+      </p>
+      <div class="w-full bg-gray-50 rounded-xl p-8 border-2 border-dashed border-gray-200">
+        <uikit-file-input
+          formControlName="Attachment"
+          [multiple]="false"
+          [validation]="fileValidation"
+          [placeholder]="'profile.uploadPlaceholder' | translate"
+        ></uikit-file-input>
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-3 pt-4 border-t border-gray-100">
+      <uikit-button
+        [label]="'common.cancel' | translate"
+        variant="outline"
+        [outlined]="true"
+        (click)="hide()"
+        [style]="{ width: '100px', height: '44px', borderRadius: '12px' }"
+      ></uikit-button>
+      <uikit-button
+        [label]="'common.save' | translate"
+        (click)="save()"
+        [loading]="loading()"
+        [style]="{
+          width: '120px',
+          height: '44px',
+          borderRadius: '12px',
+          backgroundColor: '#3E8F96',
+          fontSize: '16px',
+        }"
+      ></uikit-button>
+    </div>
+  </form>
+</p-dialog>

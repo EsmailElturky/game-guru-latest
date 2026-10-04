@@ -1,0 +1,553 @@
+<div appRtl class="registration-container p-8!">
+  <div class="stepper-sidebar rounded-2xl">
+    <div class="logo-container flex justify-center items-center">
+      <img src="./assets/images/vertical-logo.svg" alt="Game Guru" />
+    </div>
+
+    <div class="registration-text">
+      <img src="./assets/images/vertical-logo.svg" class="mobile-logo-image" alt="Game Guru" />
+      <h2>{{ 'signup.registrationSteps' | translate }}</h2>
+      <p>{{ 'signup.registrationStepsSubtext' | translate }}</p>
+    </div>
+
+    <div class="stepper-vertical">
+      <div class="step-item" [class.active]="currentStep() >= 1" (click)="goToStep(1)">
+        @if (1 < 4) {
+          <div class="step-line"></div>
+        }
+        <div class="step-indicator">
+          <div
+            class="dot"
+            [class.completed]="currentStep() > 1"
+            [class.current]="currentStep() === 1"
+          >
+            @if (currentStep() > 1) {
+              <i class="pi pi-check"></i>
+            }
+          </div>
+        </div>
+        <div class="step-content">
+          <p class="step-number text-white opacity-70">{{ 'signup.step1' | translate }}</p>
+          <p class="step-title font-semibold">{{ 'signup.venueInformation' | translate }}</p>
+        </div>
+      </div>
+
+      <div class="step-item" [class.active]="currentStep() >= 2" (click)="goToStep(2)">
+        @if (2 < 4) {
+          <div class="step-line"></div>
+        }
+        <div class="step-indicator">
+          <div
+            class="dot"
+            [class.completed]="currentStep() > 2"
+            [class.current]="currentStep() === 2"
+          >
+            @if (currentStep() > 2) {
+              <i class="pi pi-check"></i>
+            }
+          </div>
+        </div>
+        <div class="step-content">
+          <p class="step-number text-white opacity-70">{{ 'signup.step2' | translate }}</p>
+          <p class="step-title font-semibold">{{ 'signup.venueManagerInfo' | translate }}</p>
+        </div>
+      </div>
+
+      <div class="step-item" [class.active]="currentStep() >= 3" (click)="goToStep(3)">
+        @if (3 < 4) {
+          <div class="step-line"></div>
+        }
+        <div class="step-indicator">
+          <div
+            class="dot"
+            [class.completed]="currentStep() > 3"
+            [class.current]="currentStep() === 3"
+          >
+            @if (currentStep() > 3) {
+              <i class="pi pi-check"></i>
+            }
+          </div>
+        </div>
+        <div class="step-content">
+          <p class="step-number text-white opacity-70">{{ 'signup.step3' | translate }}</p>
+          <p class="step-title font-semibold">{{ 'signup.branchesInformation' | translate }}</p>
+        </div>
+      </div>
+
+      <div class="step-item pb-0!" [class.active]="currentStep() === 4" (click)="goToStep(4)">
+        <div class="step-indicator">
+          <div class="dot" [class.current]="currentStep() === 4"></div>
+        </div>
+        <div class="step-content">
+          <p class="step-number text-white opacity-70">{{ 'signup.step4' | translate }}</p>
+          <p class="step-title font-semibold">{{ 'signup.verifyYourAccount' | translate }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-area">
+    <div class="flex w-full justify-end mb-2">
+      <uikit-button
+        [label]="language() === 'ar' ? 'English' : 'العربية'"
+        [text]="true"
+        [style]="{ width: 'auto', height: '40px', borderRadius: '12px', fontSize: '16px' }"
+        (clicked)="toggleLanguage()"
+      ></uikit-button>
+    </div>
+    <div class="header">
+      <h1>{{ 'signup.becomeAVenueManager' | translate }}</h1>
+      <p>
+        {{ 'signup.alreadyHaveAnAccount' | translate }}
+        <a (click)="login()" class="cursor-pointer text-(--primary-500)!">{{
+          'auth.login' | translate
+        }}</a>
+      </p>
+    </div>
+
+    <form [formGroup]="signupForm">
+      @if (currentStep() === 1) {
+        <div formGroupName="clubInfo" class="step-container">
+          <h3>{{ 'signup.venueInformation' | translate }}</h3>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-8 mb-12!">
+            <div class="control flex flex-col">
+              <label>{{ 'signup.venueNameEn' | translate }}</label>
+              <uikit-input-text [emitOnBlur]="false"
+                formControlName="name"
+                [placeholder]="'signup.nameEnPlaceholder' | translate"
+              ></uikit-input-text>
+            </div>
+            <div class="control flex flex-col">
+              <label>{{ 'signup.venueNameAr' | translate }}</label>
+              <uikit-input-text [emitOnBlur]="false"
+                formControlName="nameAr"
+                [placeholder]="'signup.nameArPlaceholder' | translate"
+              ></uikit-input-text>
+            </div>
+            <div class="control flex flex-col">
+              <label>{{ 'signup.venuePhoneNumber' | translate }}</label>
+              <uikit-mobile-input
+                [options]="phoneCountryCodeOptions()"
+                formControlName="phone"
+              ></uikit-mobile-input>
+            </div>
+            <div class="control flex flex-col">
+              <label>{{ 'signup.emailAddress' | translate }}</label>
+              <uikit-input-text [emitOnBlur]="false"
+                formControlName="email"
+                [placeholder]="'profile.emailPlaceholder' | translate"
+              ></uikit-input-text>
+            </div>
+            <div class="control flex flex-col">
+              <label>{{ 'profile.city' | translate }}</label>
+              <uikit-select
+                [options]="cityOptions()"
+                formControlName="cityId"
+                optionLabel="label"
+                optionValue="value"
+                [placeholder]="'profile.city' | translate"
+              ></uikit-select>
+            </div>
+            <div class="control flex flex-col">
+              <label>{{ 'signup.sportTypes' | translate }}</label>
+              <uikit-multi-select
+                [options]="sportOptions()"
+                formControlName="venueSports"
+                [placeholder]="'signup.sportTypes' | translate"
+                [optionLabel]="'label'"
+                [optionValue]="'value'"
+              ></uikit-multi-select>
+            </div>
+            <div class="control flex flex-col lg:col-span-2">
+              <label>{{ 'signup.branchAddress' | translate }}</label>
+              <uikit-map-input
+                formControlName="mapLocation"
+                [placeholder]="'signup.branchAddress' | translate"
+              ></uikit-map-input>
+            </div>
+            <div class="control flex flex-col">
+              <label>{{ 'profile.descriptionEn' | translate }}</label>
+              <uikit-text-area [emitOnBlur]="false"
+                formControlName="description"
+                [placeholder]="'profile.descriptionPlaceholder' | translate"
+              ></uikit-text-area>
+            </div>
+            <div class="control flex flex-col">
+              <label>{{ 'profile.descriptionAr' | translate }}</label>
+              <uikit-text-area [emitOnBlur]="false"
+                formControlName="descriptionAr"
+                [placeholder]="'profile.descriptionPlaceholder' | translate"
+              ></uikit-text-area>
+            </div>
+            <div class="control flex flex-col">
+              <label>{{ 'profile.registrationName' | translate }}</label>
+              <uikit-input-text [emitOnBlur]="false"
+                formControlName="resgistrationName"
+                [placeholder]="'profile.registrationName' | translate"
+              ></uikit-input-text>
+            </div>
+            <div class="control flex flex-col">
+              <label>{{ 'profile.registrationNumber' | translate }}</label>
+              <uikit-input-text [emitOnBlur]="false"
+                formControlName="registrationNumber"
+                [placeholder]="'profile.registrationNumber' | translate"
+              ></uikit-input-text>
+            </div>
+            <div class="control flex flex-col">
+              <label>{{ 'profile.tradeMarkName' | translate }}</label>
+              <uikit-input-text [emitOnBlur]="false"
+                formControlName="tradeMarkName"
+                [placeholder]="'profile.tradeMarkName' | translate"
+              ></uikit-input-text>
+            </div>
+            <div class="control flex flex-col">
+              <label>{{ 'profile.taxNumber' | translate }}</label>
+              <uikit-input-text [emitOnBlur]="false"
+                formControlName="taxNumber"
+                [placeholder]="'profile.taxNumber' | translate"
+              ></uikit-input-text>
+            </div>
+            <div class="control flex flex-col">
+              <label>{{ 'common.gender' | translate }} ({{ 'signup.venueInformation' | translate }})</label>
+              <uikit-select
+                [options]="orgGenderOptions()"
+                formControlName="genderType"
+                optionLabel="label"
+                optionValue="value"
+                [placeholder]="'common.gender' | translate"
+              ></uikit-select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-8! mb-12!">
+            <div class="control flex flex-col">
+              <label>{{ 'signup.venueLogo' | translate }}</label>
+              <uikit-file-input
+                formControlName="logo"
+                [multiple]="false"
+                [validation]="fileValidation"
+                [placeholder]="'profile.uploadPlaceholder' | translate"
+              ></uikit-file-input>
+            </div>
+            <div class="control flex flex-col">
+              <label>{{ 'signup.venueCover' | translate }}</label>
+              <uikit-file-input
+                formControlName="cover"
+                [multiple]="false"
+                [validation]="fileValidation"
+                [placeholder]="'profile.uploadPlaceholder' | translate"
+              ></uikit-file-input>
+            </div>
+          </div>
+        </div>
+      }
+
+      @if (currentStep() === 2) {
+        <div formGroupName="managerInfo" class="step-container">
+          <h3>{{ 'signup.venueManagerInfo' | translate }}</h3>
+          @if (managerInfo.errors?.['passwordMismatch']) {
+            <p class="text-red-600 text-sm mb-4">{{ 'validation.passwordMismatch' | translate }}</p>
+          }
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-8 mb-12">
+            <div class="control flex flex-col lg:col-span-2">
+              <label>{{ 'profile.fullName' | translate }}</label>
+              <uikit-input-text [emitOnBlur]="false"
+                formControlName="fullName"
+                [placeholder]="'profile.fullNamePlaceholder' | translate"
+              ></uikit-input-text>
+            </div>
+            <div class="control flex flex-col">
+              <label>{{ 'signup.venueManagerPhoneNumber' | translate }}</label>
+              <uikit-mobile-input
+                [options]="phoneCountryCodeOptions()"
+                formControlName="phone"
+              ></uikit-mobile-input>
+            </div>
+            <div class="control flex flex-col">
+              <label>{{ 'signup.emailAddress' | translate }}</label>
+              <uikit-input-text [emitOnBlur]="false"
+                formControlName="email"
+                [placeholder]="'profile.emailPlaceholder' | translate"
+              ></uikit-input-text>
+            </div>
+            <div class="control flex flex-col">
+              <label>{{ 'profile.birthDate' | translate }}</label>
+              <uikit-date-picker
+                formControlName="dateOfBirth"
+                [showIcon]="true"
+                [maxDate]="maxDate"
+              ></uikit-date-picker>
+            </div>
+            <div class="control flex flex-col">
+              <label>{{ 'common.gender' | translate }}</label>
+              <uikit-select
+                [options]="userGenderOptions()"
+                formControlName="gender"
+                optionLabel="label"
+                optionValue="value"
+                [placeholder]="'common.gender' | translate"
+              ></uikit-select>
+            </div>
+            <div class="control flex flex-col lg:col-span-2">
+              <label>{{ 'profile.address' | translate }}</label>
+              <uikit-input-text [emitOnBlur]="false"
+                formControlName="address"
+                [placeholder]="'profile.addressPlaceholder' | translate"
+              ></uikit-input-text>
+            </div>
+            <div class="control flex flex-col">
+              <label>{{ 'signup.setPassword' | translate }}</label>
+              <uikit-input-password
+                formControlName="password"
+                [placeholder]="'auth.passwordPlaceholder' | translate"
+              ></uikit-input-password>
+            </div>
+            <div class="control flex flex-col">
+              <label>{{ 'signup.confirmPassword' | translate }}</label>
+              <uikit-input-password
+                formControlName="confirmPassword"
+                [placeholder]="'auth.passwordPlaceholder' | translate"
+              ></uikit-input-password>
+            </div>
+          </div>
+          <div class="control flex flex-col mb-12">
+            <label>{{ 'signup.venueManagerPhoto' | translate }}</label>
+            <uikit-file-input
+              formControlName="imageProfile"
+              [multiple]="false"
+              [validation]="fileValidation"
+              [placeholder]="'profile.uploadPlaceholder' | translate"
+            ></uikit-file-input>
+          </div>
+        </div>
+      }
+
+      @if (currentStep() === 3) {
+        <div class="step-container">
+          <h3>{{ 'signup.branchesInformation' | translate }}</h3>
+          <p class="text-gray-600 mb-8">{{ 'signup.facilityFormHint' | translate }}</p>
+
+          <div [formGroup]="facilityDraftForm" class="facility-draft rounded-xl border border-gray-200 p-6 mb-10">
+            <h4 class="text-lg font-semibold mb-6">{{ 'signup.addFacilitySection' | translate }}</h4>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-6">
+              <div class="control flex flex-col">
+                <label>{{ 'signup.courtName' | translate }}</label>
+                <uikit-input-text [emitOnBlur]="false"
+                  formControlName="name"
+                  [placeholder]="'signup.courtName' | translate"
+                ></uikit-input-text>
+              </div>
+              <div class="control flex flex-col">
+                <label>{{ 'profile.nameAr' | translate }}</label>
+                <uikit-input-text [emitOnBlur]="false"
+                  formControlName="nameAr"
+                  [placeholder]="'signup.nameArPlaceholder' | translate"
+                ></uikit-input-text>
+              </div>
+              <div class="control flex flex-col">
+                <label>{{ 'profile.width' | translate }}</label>
+                <uikit-input-number formControlName="width"></uikit-input-number>
+              </div>
+              <div class="control flex flex-col">
+                <label>{{ 'profile.height' | translate }}</label>
+                <uikit-input-number formControlName="height"></uikit-input-number>
+              </div>
+              <div class="control flex flex-col lg:col-span-2">
+                <label>{{ 'signup.listOfActivities' | translate }}</label>
+                <uikit-multi-select
+                  [options]="sportOptions()"
+                  formControlName="sports"
+                  [placeholder]="'signup.listOfActivities' | translate"
+                  [optionLabel]="'label'"
+                  [optionValue]="'value'"
+                ></uikit-multi-select>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-4 mt-8! mb-8!">
+              <uikit-button
+                type="button"
+                (click)="addOrUpdateFacilityFromDraft()"
+                [label]="
+                  editingFacilityIndex() !== null
+                    ? ('common.save' | translate)
+                    : ('common.add' | translate)
+                "
+                [style]="{
+                  minWidth: '140px',
+                  height: '48px',
+                  borderRadius: '12px',
+                  backgroundColor: '#3E8F96',
+                }"
+              ></uikit-button>
+              @if (editingFacilityIndex() !== null) {
+                <uikit-button
+                  type="button"
+                  (click)="cancelFacilityEdit()"
+                  [label]="'common.cancel' | translate"
+                  [outlined]="true"
+                  [style]="{ minWidth: '120px', height: '48px', borderRadius: '12px' }"
+                ></uikit-button>
+              }
+            </div>
+          </div>
+
+          <h4 class="text-lg font-semibold! text-(--primary-500)! mb-4!">{{ 'signup.facilitiesList' | translate }}</h4>
+          <div class="courts-table mb-8">
+            <table>
+              <thead>
+                <tr>
+                  <th>{{ 'signup.courtName' | translate }}</th>
+                  <th>{{ 'profile.nameAr' | translate }}</th>
+                  <th>{{ 'profile.width' | translate }}</th>
+                  <th>{{ 'profile.height' | translate }}</th>
+                  <th>{{ 'signup.listOfActivities' | translate }}</th>
+                  <th class="text-center">{{ 'signup.actions' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                @if (facilities.length === 0) {
+                  <tr>
+                    <td colspan="6" class="text-center text-gray-500 py-8 px-4">
+                      {{ 'signup.noFacilitiesYet' | translate }}
+                    </td>
+                  </tr>
+                } @else {
+                  @for (_ of facilities.controls; track $index; let i = $index) {
+                    <tr class="facility-row-view">
+                      <td class="py-3 px-2">{{ facilityRowValue(i).name }}</td>
+                      <td class="py-3 px-2">{{ facilityRowValue(i).nameAr }}</td>
+                      <td class="py-3 px-2">{{ facilityRowValue(i).width }}</td>
+                      <td class="py-3 px-2">{{ facilityRowValue(i).height }}</td>
+                      <td class="py-3 px-2">{{ sportLabelsForIds(facilityRowValue(i).sports) }}</td>
+                      <td>
+                        <div class="flex justify-center gap-4">
+                          <button
+                            type="button"
+                            class="text-[#3E8F96] text-xl"
+                            (click)="beginEditFacility(i)"
+                            [attr.aria-label]="'common.edit' | translate"
+                          >
+                            <i class="pi pi-pencil"></i>
+                          </button>
+                          <button
+                            type="button"
+                            (click)="deleteFacility(i)"
+                            class="text-red-500 text-xl"
+                            [attr.aria-label]="'common.delete' | translate"
+                          >
+                            <i class="pi pi-trash"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  }
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      }
+
+      @if (currentStep() === 4) {
+        <div formGroupName="verification" class="step-container flex justify-center p-0!">
+          <div class="card shadow-2xl rounded-[32px] w-full max-w-[582px] p-10! md:p-4!">
+            <div
+              class="bg-(--primary-500)! py-12 px-6 flex flex-col items-center p-4! justify-center text-center gap-4 text-white rounded-[24px]"
+            >
+              <div
+                class="bg-white h-[clamp(60px,10vw,80px)] w-[clamp(60px,10vw,80px)] rounded-[16px] flex items-center justify-center"
+              >
+                <span class="icon-message text-4xl! text-(--primary-500)!"></span>
+              </div>
+              <h1 class="text-3xl lg:text-4xl! font-bold! text-white mb-0">
+                {{ 'auth.verifyYourAccount' | translate }}
+              </h1>
+              <p class="text-lg lg:text-xl! font-medium! opacity-90 leading-relaxed">
+                {{ 'auth.verificationCodeSent' | translate }}
+              </p>
+              <p
+                class="text-lg lg:text-xl! font-bold! opacity-100 underline decoration-2 underline-offset-4"
+              >
+                {{ maskedRegisteredEmail() }}
+              </p>
+            </div>
+
+            <div class="px-6 lg:px-20! py-8! flex flex-col items-center gap-10">
+              <div class="w-full flex flex-col justify-center items-center text-center">
+                <label class="block mb-6 font-bold! text-xl! text-[#1F2937]">
+                  {{ 'auth.enterVerificationCode' | translate }}
+                </label>
+                <uikit-otp formControlName="otp" [length]="4" [integerOnly]="true"></uikit-otp>
+              </div>
+              <uikit-button
+                type="button"
+                (click)="verifyOtp()"
+                class="w-full lg:w-80!"
+                [label]="'auth.verify' | translate"
+                [iconPosition]="language() === 'ar' ? 'left' : 'right'"
+                [disabled]="!!signupForm.get('verification')?.invalid || isVerifying()"
+                [style]="{
+                  width: '100%',
+                  height: '64px',
+                  borderRadius: '20px',
+                  backgroundColor: '#3E8F96',
+                  fontSize: '20px',
+                }"
+              ></uikit-button>
+              <div class="text-center">
+                @if (canResend()) {
+                  <span
+                    class="text-gray-400 text-lg cursor-pointer hover:text-gray-600 font-medium"
+                    (click)="resendCode()"
+                  >
+                    {{ 'signup.resendCode' | translate }}
+                  </span>
+                } @else {
+                  <span class="text-gray-400 text-lg font-medium">
+                    {{ 'signup.resendCode' | translate }} ({{ resendTimerFormatted() }})
+                  </span>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+
+      @if (currentStep() < 4) {
+        <div class="actions-footer flex justify-between gap-6 mt-12! md:justify-end">
+          <uikit-button
+            [label]="'common.back' | translate"
+            (click)="prevStep()"
+            [outlined]="true"
+            [style]="{ width: 'clamp(120px, 10vw, 180px)', height: '56px', borderRadius: '16px' }"
+            class="uikit-btn-back"
+          ></uikit-button>
+          <uikit-button
+            [label]="'common.next' | translate"
+            (click)="nextStep()"
+            [disabled]="isRegistering()"
+            [style]="{
+              width: 'clamp(120px, 10vw, 180px)',
+              height: '56px',
+              borderRadius: '16px',
+              backgroundColor: '#3E8F96',
+              fontSize: '18px',
+            }"
+          ></uikit-button>
+        </div>
+      }
+
+      @if (currentStep() === 4) {
+        <div class="actions-footer flex justify-start gap-6 mt-12!">
+          <uikit-button
+            [label]="'common.back' | translate"
+            (click)="prevStep()"
+            [outlined]="true"
+            [style]="{ width: 'clamp(120px, 10vw, 180px)', height: '56px', borderRadius: '16px' }"
+            class="uikit-btn-back"
+          ></uikit-button>
+        </div>
+      }
+    </form>
+  </div>
+</div>

@@ -1,0 +1,206 @@
+<p-dialog
+  [visible]="visible()"
+  (onHide)="hide()"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [showHeader]="false"
+  [style]="{ width: '450px', borderRadius: '24px', overflow: 'hidden', border: 'none' }"
+  styleClass="custom-event-dialog"
+>
+  <div class="bg-white overflow-hidden" *ngIf="eventData() as data">
+    <!-- Header -->
+    <div
+      class="relative py-4! px-4! text-center! transition-colors! duration-300!"
+      [style.background-color]="getStatusColor(data.statusName)"
+    >
+      <!-- Subtle Overlay for contrast -->
+      <div class="absolute inset-0 bg-black/5"></div>
+
+      <!-- Close Icon (Top Right) -->
+      <button
+        (click)="hide()"
+        class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center hover:bg-black/10 transition-all rounded-full text-white/90 hover:text-white cursor-pointer z-20"
+      >
+        <i class="pi pi-times text-xl"></i>
+      </button>
+
+      <div class="relative z-10 flex flex-col items-center gap-3 text-white p-3!">
+        <span
+          class="inline-block px-4! py-1.5! text-[11px] font-bold uppercase tracking-[0.1em] bg-white/20 backdrop-blur-md border border-white/20 rounded-full p-1! px-3!"
+        >
+          {{ 'booking.statuses.' + data.statusName | translate }}
+        </span>
+        <h2 class="text-2xl font-extrabold leading-tight tracking-tight px-4!">
+          {{ data.organizationName }}
+        </h2>
+        <p class="text-xs font-semibold uppercase tracking-widest opacity-80!">
+          {{ data.sportName }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="p-8! space-y-6!">
+      <!-- Date -->
+      <div class="flex items-center gap-5">
+        <div
+          class="w-12 h-12 flex items-center justify-center bg-gray-50 text-gray-500 rounded-2xl border border-gray-100 shrink-0"
+        >
+          <i class="pi pi-calendar text-xl"></i>
+        </div>
+        <div class="flex flex-col gap-0.5">
+          <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">{{
+            'booking.date' | translate
+          }}</span>
+          <span class="text-[15px] font-bold text-gray-800">{{
+            data.bookingDate | date: 'fullDate'
+          }}</span>
+        </div>
+      </div>
+
+      <!-- Time -->
+      <div class="flex items-center gap-5">
+        <div
+          class="w-12 h-12 flex items-center justify-center bg-gray-50 text-gray-500 rounded-2xl border border-gray-100 shrink-0"
+        >
+          <i class="pi pi-clock text-xl"></i>
+        </div>
+        <div class="flex flex-col gap-0.5">
+          <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">{{
+            'booking.timeRange' | translate
+          }}</span>
+          <span class="text-[15px] font-bold text-gray-800"
+            >{{ data.startTime }} - {{ data.endTime }}</span
+          >
+        </div>
+      </div>
+
+      @if (data.facilityName) {
+        <div class="flex items-center gap-5">
+          <div
+            class="w-12 h-12 flex items-center justify-center bg-gray-50 text-gray-500 rounded-2xl border border-gray-100 shrink-0"
+          >
+            <i class="pi pi-building text-xl"></i>
+          </div>
+          <div class="flex flex-col gap-0.5">
+            <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">{{
+              'booking.facility' | translate
+            }}</span>
+            <span class="text-[15px] font-bold text-gray-800">{{ data.facilityName }}</span>
+          </div>
+        </div>
+      }
+
+      @if (data.isAssignCoach && data.coachName) {
+        <div class="flex items-center gap-5">
+          <div
+            class="w-12 h-12 flex items-center justify-center bg-gray-50 text-gray-500 rounded-2xl border border-gray-100 shrink-0"
+          >
+            <i class="pi pi-user text-xl"></i>
+          </div>
+          <div class="flex flex-col gap-0.5">
+            <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">{{
+              'booking.selectCoach' | translate
+            }}</span>
+            <span class="text-[15px] font-bold text-gray-800">{{ data.coachName }}</span>
+          </div>
+        </div>
+      }
+
+      @if (data.createdDate) {
+        <div class="flex items-center gap-5">
+          <div
+            class="w-12 h-12 flex items-center justify-center bg-gray-50 text-gray-500 rounded-2xl border border-gray-100 shrink-0"
+          >
+            <i class="pi pi-history text-xl"></i>
+          </div>
+          <div class="flex flex-col gap-0.5">
+            <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">{{
+              'booking.createdDate' | translate
+            }}</span>
+            <span class="text-[15px] font-bold text-gray-800">{{
+              data.createdDate | date: 'medium'
+            }}</span>
+          </div>
+        </div>
+      }
+
+      <!-- Amount -->
+      <div class="flex items-center gap-5 p-5! rounded-2xl! bg-blue-50/40! border border-blue-100!">
+        <div
+          class="w-12 h-12 flex items-center justify-center bg-blue-100 text-blue-600 rounded-xl shrink-0 shadow-sm shadow-blue-200"
+        >
+          <i class="pi pi-wallet text-xl"></i>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-[10px] text-blue-400 font-bold uppercase tracking-wider">{{
+            'booking.amount' | translate
+          }}</span>
+          <div class="flex items-center gap-1.5">
+            <span class="text-2xl font-black text-blue-700 leading-none">{{
+              data.bookingAmount
+            }}</span>
+            <span class="text-xs font-bold text-blue-500 uppercase">{{
+              'booking.currency' | translate
+            }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Info -->
+      <div class="grid grid-cols-2 gap-4 pt-2">
+        <div
+          class="p-4! rounded-2xl! bg-gray-50/80! border border-gray-100! flex items-center gap-3!"
+        >
+          <i class="pi pi-hashtag text-gray-300 text-lg"></i>
+          <div class="flex flex-col">
+            <span class="text-[9px] text-gray-400 font-bold uppercase">{{
+              'booking.reference' | translate
+            }}</span>
+            <span class="text-sm font-bold text-gray-700">#{{ data.id }}</span>
+          </div>
+        </div>
+        <div
+          class="p-4! rounded-2xl! bg-gray-50/80! border border-gray-100! flex items-center gap-3!"
+        >
+          <i class="pi pi-hourglass text-gray-300 text-lg"></i>
+          <div class="flex flex-col">
+            <span class="text-[9px] text-gray-400 font-bold uppercase">{{
+              'booking.duration' | translate
+            }}</span>
+            <span class="text-sm font-bold text-gray-700"
+              >{{ data.duration }} {{ 'booking.minutes' | translate }}</span
+            >
+          </div>
+        </div>
+        <div
+          class="p-4! rounded-2xl! bg-gray-50/80! border border-gray-100! flex items-center gap-3! col-span-2"
+        >
+          <i
+            class="pi text-lg"
+            [class.pi-check-circle]="data.isActive"
+            [class.text-emerald-500]="data.isActive"
+            [class.pi-times-circle]="!data.isActive"
+            [class.text-gray-400]="!data.isActive"
+          ></i>
+          <div class="flex flex-col">
+            <span class="text-[9px] text-gray-400 font-bold uppercase">{{
+              'common.status' | translate
+            }}</span>
+            <span
+              class="text-sm font-bold"
+              [class.text-emerald-700]="data.isActive"
+              [class.text-gray-600]="!data.isActive"
+            >
+              {{ (data.isActive ? 'booking.active' : 'booking.inactive') | translate }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Padding at the bottom for balance -->
+    <div class="h-6"></div>
+  </div>
+</p-dialog>

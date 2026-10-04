@@ -1,0 +1,72 @@
+<div class="px-5! py-5! min-h-full flex flex-col flex-1">
+  <div class="flex justify-end items-center mb-6">
+    <uikit-button
+      [icon]="'pi pi-download'"
+      [style]="{
+        backgroundColor: 'var(--surface-0)',
+        color: 'var(--primary-color)',
+        padding: '3px',
+      }"
+      (click)="exportReport()"
+    ></uikit-button>
+  </div>
+
+  <div class="grid grid-cols-12 gap-4 mb-6! mt-6!">
+    <div class="col-span-12 sm:col-span-6 md:col-span-3">
+      <uikit-date-picker
+        [placeholder]="'common.from' | translate"
+        [showIcon]="true"
+        (onSelect)="onDateFromChange($event)"
+      ></uikit-date-picker>
+    </div>
+    <div class="col-span-12 sm:col-span-6 md:col-span-3">
+      <uikit-date-picker
+        [placeholder]="'common.to' | translate"
+        [showIcon]="true"
+        (onSelect)="onDateToChange($event)"
+      ></uikit-date-picker>
+    </div>
+    <div class="col-span-12 sm:col-span-6 md:col-span-3">
+      <uikit-select
+        [options]="organizationOptions()"
+        optionLabel="label"
+        optionValue="value"
+        [placeholder]="'reports.bookingRevenue.organizationPlaceholder' | translate"
+        (valueChange)="onOrganizationChange($event)"
+      ></uikit-select>
+    </div>
+    <div class="col-span-12 sm:col-span-6 md:col-span-3">
+      <uikit-select
+        [options]="courtOptions()"
+        optionLabel="label"
+        optionValue="value"
+        [placeholder]="'reports.bookingRevenue.courtPlaceholder' | translate"
+        (valueChange)="onCourtChange($event)"
+      ></uikit-select>
+    </div>
+    <div class="col-span-12 sm:col-span-6 md:col-span-3">
+      <uikit-select
+        [options]="statusOptions()"
+        optionLabel="label"
+        optionValue="value"
+        [placeholder]="'reports.bookingRevenue.statusPlaceholder' | translate"
+        (valueChange)="onStatusChange($event)"
+      ></uikit-select>
+    </div>
+  </div>
+
+  <div class="flex-1 min-h-0 overflow-hidden">
+    <uikit-table
+      class="h-full"
+      [data]="reportData()"
+      [columns]="tableColumns()"
+      [totalCount]="totalCount()"
+      [rowsPerPage]="rowsPerPage()"
+      (selectionChanged)="onSelectionChange($event)"
+      (pageChanged)="onPageChange($event)"
+      (sortChanged)="onSortChange($event)"
+      [paginator]="true"
+      [rowsPerPageOptions]="rowsPerPageOptionValues()"
+    ></uikit-table>
+  </div>
+</div>

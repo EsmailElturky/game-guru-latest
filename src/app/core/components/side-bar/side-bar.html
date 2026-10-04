@@ -1,0 +1,66 @@
+<!-- // when the screen size is md or larger, the dismissible should be false -->
+
+<p-drawer
+  [(visible)]="visible"
+  [dismissible]="dismissible()"
+  [closeOnEscape]="false"
+  [showCloseIcon]="false"
+  styleClass="!w-[300px]"
+  [modal]="dismissible()"
+  [position]="position()"
+  (onHide)="toggleSidebar.emit(false)"
+>
+  <ng-template #header>
+    <div class="flex flex-col items-center w-full text-(--secondary-400)">
+      <img src="./assets/images/full-logo.svg" class="w-[185px]" />
+      <div class="w-full p-4! mt-4!">
+        <hr class="" />
+      </div>
+    </div>
+  </ng-template>
+  <div class="flex flex-col gap-2">
+    @for (item of sideMenuItems(); track $index) {
+      @if (item.visible) {
+        <app-sidebar-menu-items
+          [sideMenuItem]="item"
+          (routChanged)="dismissible() ? toggleSidebar.emit(false) : null"
+        ></app-sidebar-menu-items>
+      }
+    }
+  </div>
+  <ng-template #footer>
+    <div class="flex flex-col items-center gap-2">
+      <div class="w-full p-4! mt-4! text-(--secondary-400)">
+        <hr class="" />
+      </div>
+      <div
+        class="profile flex justify-between items-center gap-3 header-item h-[44px]"
+        [routerLink]="['/profile']"
+        (click)="dismissible() ? toggleSidebar.emit(false) : null"
+      >
+        <img
+          [src]="
+            imageUrl + '/' + (isAppAdmin() ? user()!.imageName : user()?.logoName) ||
+            './assets/images/avatar.svg'
+          "
+          class="w-11! h-11! rounded-full -me-6!"
+        />
+        <div class="flex flex-col items-center px-4!">
+          <span class="font-semibold text-(--primary-500)">{{ user()!.fullName }}</span>
+          <!-- <span class="text-[#9CA0B2]">{{ user()!.userInfo.roleName }}</span> -->
+        </div>
+        <i
+          [class]="language() === 'ar' ? 'pi pi-chevron-left' : 'pi pi-chevron-right'"
+          class="text-[#9CA0B2]"
+        ></i>
+      </div>
+      <div
+        class="flex items-center w-full p-4! mt-4! font-semibold! text-[14px]! logout"
+        (click)="logout()"
+      >
+        <span class="icon-logout1 me-4! text-[16px]!"></span>
+        <span>{{ 'auth.logout' | translate }}</span>
+      </div>
+    </div>
+  </ng-template>
+</p-drawer>

@@ -1,0 +1,120 @@
+<div class="px-5! py-5! flex-1 min-h-full flex flex-col">
+  @if (promo(); as p) {
+    <div class="flex-1 flex flex-col justify-between gap-10">
+      <div class="flex flex-col gap-10 w-full">
+        <div class="flex flex-col items-center gap-2 text-center px-4">
+          <h2 class="text-2xl font-bold text-gray-900">{{ p.name }}</h2>
+          <p class="text-gray-500 text-lg">{{ p.nameAr || '-' }}</p>
+        </div>
+        @if (imageUrl(); as img) {
+          <div class="flex justify-center px-4">
+            <img
+              [src]="img"
+              alt=""
+              class="max-h-48 rounded-lg object-contain border border-gray-100"
+            />
+          </div>
+        }
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10 px-4">
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'profile.promoCode' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ p.promotionCode || '-' }}</span>
+          </div>
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'profile.promoType' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ p.promotionTypeName || '-' }}</span>
+          </div>
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'profile.startDate' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ startDateDisplay() }}</span>
+          </div>
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'profile.endDate' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ endDateDisplay() }}</span>
+          </div>
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'profile.fixedValue' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ p.fixedValue || '-' }}</span>
+          </div>
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'profile.percentage' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ p.percentage || '-' }}</span>
+          </div>
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'profile.maxAmount' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ p.maxAmount || '-' }}</span>
+          </div>
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'table.status' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ p.statusName || '-' }}</span>
+          </div>
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2 md:col-span-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'profile.summaryEn' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ p.summary || '-' }}</span>
+          </div>
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2 md:col-span-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'profile.summaryAr' | translate
+            }}</span>
+            <span class="text-lg text-gray-800">{{ p.summaryAr || '-' }}</span>
+          </div>
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2 md:col-span-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'profile.descriptionEn' | translate
+            }}</span>
+            <span class="text-lg text-gray-800 whitespace-pre-wrap">{{
+              p.description || '-'
+            }}</span>
+          </div>
+          <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2 md:col-span-2">
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+              'profile.descriptionAr' | translate
+            }}</span>
+            <span class="text-lg text-gray-800 whitespace-pre-wrap">{{
+              p.descriptionAr || '-'
+            }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-end gap-4 pt-6 border-t border-gray-100">
+        <uikit-button
+          type="button"
+          [label]="'common.back' | translate"
+          [style]="{
+            width: '120px',
+            height: '40px',
+            borderRadius: '12px',
+            fontSize: '16px',
+            backgroundColor: '#f3f4f6',
+            color: '#374151',
+          }"
+          (clicked)="back()"
+        ></uikit-button>
+        <uikit-button
+          type="button"
+          [label]="'common.edit' | translate"
+          [style]="{ width: '120px', height: '40px', borderRadius: '12px', fontSize: '16px' }"
+          (clicked)="goEdit()"
+        ></uikit-button>
+      </div>
+    </div>
+  }
+</div>

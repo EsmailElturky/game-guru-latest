@@ -1,0 +1,46 @@
+@use '../abstract/index' as abstract;
+
+// ========================
+// SCSS Variables
+// ========================
+// These SCSS variables are processed during build time and provide
+// compile-time constants and theming capabilities.
+
+/**
+ * Usage in SCSS:
+ *   .element { font-family: $font-family-ltr; }
+
+ * Override in component:
+ *   :host { --font-family-ltr: 'CustomFont', sans-serif; }
+ */
+$font-family-ltr: var(--font-family-ltr, 'Rubik', sans-serif);
+$font-family-rtl: var(--font-family-rtl, 'Cairo', sans-serif);
+$default-font-family: var(--default-font-family, $font-family-ltr);
+
+$fw-regular: var(--fw-regular, 400);
+$fw-semi-bold: var(--uikit-fw-semi-bold, 600);
+$fw-bold: var(--uikit-fw-bold, 700);
+
+$font-weights: (
+  'regular': $fw-regular,
+  'semi-bold': $fw-semi-bold,
+  'bold': $fw-bold,
+);
+
+h1,
+h2,
+h3 {
+  font-weight: $fw-regular;
+}
+
+h4,
+h5,
+h6 {
+  font-weight: $fw-semi-bold;
+}
+
+// generate responsive font size
+@include abstract.responsive-font-size();
+
+// generate responsive font weight
+@include abstract.responsive-font-weight($font-weights);

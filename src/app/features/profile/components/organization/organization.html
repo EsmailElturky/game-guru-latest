@@ -1,0 +1,124 @@
+<div class="flex flex-col gap-8">
+
+  <form [formGroup]="organizationForm" class="flex flex-col gap-8">
+    <!-- Form Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
+      <!-- Name (EN) -->
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.nameEn' | translate }}</label>
+        <uikit-input-text [emitOnBlur]="false"
+          formControlName="nameEn"
+          [placeholder]="'123456789'"
+        ></uikit-input-text>
+      </div>
+
+      <!-- Name (AR) -->
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.nameAr' | translate }}</label>
+        <uikit-input-text [emitOnBlur]="false"
+          formControlName="nameAr"
+          [placeholder]="'123456789'"
+        ></uikit-input-text>
+      </div>
+
+      <!-- Email -->
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.email' | translate }}</label>
+        <uikit-input-text [emitOnBlur]="false"
+          formControlName="email"
+          [placeholder]="'123456789'"
+        ></uikit-input-text>
+      </div>
+
+      <!-- Phone Number -->
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.phone' | translate }}</label>
+        <uikit-input-text [emitOnBlur]="false"
+          formControlName="phone"
+          [placeholder]="'123456789'"
+        ></uikit-input-text>
+      </div>
+
+      <!-- Address -->
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.address' | translate }}</label>
+        <uikit-input-text [emitOnBlur]="false"
+          formControlName="address"
+          [placeholder]="'123456789'"
+        ></uikit-input-text>
+      </div>
+
+      <!-- Map Link -->
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.mapUrl' | translate }}</label>
+        <uikit-input-text [emitOnBlur]="false"
+          formControlName="mapUrl"
+          [placeholder]="'123456789'"
+        ></uikit-input-text>
+      </div>
+
+      <!-- Registration Name -->
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.registrationName' | translate }}</label>
+        <uikit-input-text [emitOnBlur]="false"
+          formControlName="registrationName"
+          [placeholder]="'123456789'"
+        ></uikit-input-text>
+      </div>
+
+      <!-- Registration Number -->
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.registrationNumber' | translate }}</label>
+        <uikit-input-text [emitOnBlur]="false"
+          formControlName="registrationNumber"
+          [placeholder]="'123456789'"
+        ></uikit-input-text>
+      </div>
+
+      <!-- City -->
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.city' | translate }}</label>
+        <uikit-input-text [emitOnBlur]="false"
+          formControlName="city"
+          [placeholder]="'123456789'"
+        ></uikit-input-text>
+      </div>
+
+      <!-- Trade-Mark Name -->
+      <div class="flex flex-col gap-2 lg:col-span-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.tradeMarkName' | translate }}</label>
+        <uikit-input-text [emitOnBlur]="false"
+          formControlName="tradeMarkName"
+          [placeholder]="'123456789'"
+        ></uikit-input-text>
+      </div>
+
+      <!-- Tax Number -->
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.taxNumber' | translate }}</label>
+        <uikit-input-text [emitOnBlur]="false"
+          formControlName="tradeMarkNumber"
+          [placeholder]="'123456789'"
+        ></uikit-input-text>
+      </div>
+
+      <!-- Sport -->
+      <div class="flex flex-col gap-2 col-span-full">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.sport' | translate }}</label>
+        <uikit-input-chips
+          formControlName="sport"
+          [placeholder]="'profile.sport' | translate"
+        ></uikit-input-chips>
+      </div>
+    </div>
+
+    <!-- Action Button -->
+    <div class="flex justify-end pt-4 border-t border-gray-100">
+      <uikit-button
+        [label]="'profile.editRequest' | translate"
+        (click)="save()"
+        [style]="{ width: 'fit-content', backgroundColor: 'var(--cyan-700)', borderRadius: '8px', padding: '10px 24px' }"
+      ></uikit-button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,331 @@
+<div class="row h-screen p-6!">
+  <div class="col-md-6 hidden md:block">
+    <div class="w-full h-full flex flex-col justify-center login gap-12 text-center rounded-[15px]">
+      <div>
+        <p class="lg:text-[40px]! md:text-[32px]! text-[28px]! font-bold! text-white">
+          {{ 'auth.welcomeToAdminManager' | translate }}
+        </p>
+        <p class="lg:text-[22px]! md:text-[18px]! text-[16px]! font-medium! text-white text-center">
+          {{ 'auth.yourGatewayToEffortlessManagement' | translate }}
+        </p>
+      </div>
+      <div class="w-full flex justify-center">
+        <img src="./assets/images/vertical-logo.svg" alt="" class="h-[190px]!" />
+      </div>
+      <div>
+        <p class="lg:text-[26px]! md:text-[22px]! text-[20px]! font-bold! text-white">
+          {{ 'auth.seamlessCollaboration' | translate }}
+        </p>
+        <p class="lg:text-[20px]! md:text-[18px]! text-[16px]! font-medium! text-white text-center">
+          {{ 'auth.effortlesslyWorkTogetherWithYourTeamInRealTime' | translate }}
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-12 pe-1! flex flex-col min-h-0">
+    <div class="flex w-full justify-end shrink-0">
+      <uikit-button
+        [label]="language() === 'ar' ? 'English' : 'العربية'"
+        [text]="true"
+        [style]="{ width: 'auto', height: '40px', borderRadius: '12px', fontSize: '16px' }"
+        (clicked)="toggleLanguage()"
+      ></uikit-button>
+    </div>
+
+    @if (subscriptionGate()) {
+      <div class="w-full h-full flex ps-8! flex-col items-center rounded-[15px] py-8">
+        <div class="flex-1 w-full flex flex-col items-center justify-center gap-8 max-w-[450px]">
+          <uikit-button
+            type="button"
+            [label]="'common.back' | translate"
+            [outlined]="true"
+            class="self-start mb-2!"
+            [style]="{ minWidth: '120px', height: '44px', borderRadius: '12px' }"
+            (clicked)="backFromSubscriptionPayment()"
+          ></uikit-button>
+          <div class="flex-1 flex flex-col items-center justify-center gap-8!">
+            <p
+              class="lg:text-[40px]! md:text-[32px]! text-[28px]! font-bold! text-(--primary-500)!"
+            >
+              {{ 'subscriptionPayment.title' | translate }}
+            </p>
+            <p
+              class="text-center lg:text-[20px]! md:text-[18px]! text-[16px]! text-[#475467] font-bold! leading-relaxed"
+            >
+              {{
+                'subscriptionPayment.body'
+                  | translate: { amount: subscriptionAmount(), currency: subscriptionCurrency() }
+              }}
+            </p>
+            <!-- <div class="control flex flex-col gap-2! w-full max-w-[450px]">
+              <label class="text-start font-bold! text-[#344054]">{{
+                'subscriptionPayment.paymentMethod' | translate
+              }}</label>
+              <uikit-radio-button
+                [options]="paymentMethodOptions()"
+                [value]="selectedPaymentMethod()"
+                [optionLabel]="'label'"
+                [optionValue]="'value'"
+                [layout]="'horizontal'"
+                (radioChange)="onPaymentMethodChange($event)"
+              ></uikit-radio-button>
+            </div> -->
+
+            <div
+              class="tap-card-sdk-host w-full max-w-[450px]"
+              [hidden]="selectedPaymentMethod() !== SubscriptionPaymentMethod.Card"
+            >
+              @if (tapCardLoading()) {
+                <p class="text-center text-[#475467] font-medium py-6">
+                  {{ 'subscriptionPayment.cardLoading' | translate }}
+                </p>
+              }
+              <div [id]="cardSdkContainerId" class="tap-card-sdk w-full min-h-[220px]"></div>
+            </div>
+
+            @if (selectedPaymentMethod() === SubscriptionPaymentMethod.Card) {
+              <uikit-button
+                [label]="'subscriptionPayment.pay' | translate"
+                [icon]="language() === 'ar' ? 'pi pi-arrow-left' : 'pi pi-arrow-right'"
+                [iconPosition]="language() === 'ar' ? 'left' : 'right'"
+                class="w-full"
+                [style]="{ width: '100%' }"
+                [disabled]="paying() || tapCardLoading() || !tapCardReady()"
+                (clicked)="paySubscription()"
+              ></uikit-button>
+            }
+
+            @if (selectedPaymentMethod() === SubscriptionPaymentMethod.ApplePay) {
+              <p class="text-center text-[#475467] text-sm font-medium max-w-[450px]">
+                {{ 'subscriptionPayment.applePayHint' | translate }}
+              </p>
+              <div class="w-full max-w-[450px] min-h-[48px]">
+                @if (applePayLoading()) {
+                  <p class="text-center text-[#475467] font-medium py-4">
+                    {{ 'subscriptionPayment.cardLoading' | translate }}
+                  </p>
+                }
+                <div [id]="applePayContainerId" class="w-full"></div>
+              </div>
+            }
+
+            @if (selectedPaymentMethod() === SubscriptionPaymentMethod.StcPay) {
+              <form [formGroup]="stcPayForm" class="control flex flex-col gap-2! w-full max-w-[450px]">
+                <label class="text-start font-bold! text-[#344054]">{{
+                  'subscriptionPayment.stcPhoneLabel' | translate
+                }}</label>
+                <p class="text-sm text-[#475467] font-medium m-0!">
+                  {{ 'subscriptionPayment.stcPhoneHint' | translate }}
+                </p>
+                <uikit-mobile-input
+                  [options]="phoneCountryCodeOptions()"
+                  formControlName="phone"
+                ></uikit-mobile-input>
+              </form>
+              <uikit-button
+                [label]="'subscriptionPayment.pay' | translate"
+                [icon]="language() === 'ar' ? 'pi pi-arrow-left' : 'pi pi-arrow-right'"
+                [iconPosition]="language() === 'ar' ? 'left' : 'right'"
+                class="w-full"
+                [style]="{ width: '100%' }"
+                [disabled]="paying() || stcPayForm.invalid"
+                (clicked)="paySubscription()"
+              ></uikit-button>
+            }
+          </div>
+        </div>
+        <div class="w-full text-center mt-auto px-4 max-w-[400px]">
+          <p class="text-[#859293] font-medium leading-relaxed">
+            {{ 'auth.termsAcceptance' | translate }}
+            <span class="text-(--primary-500)! font-bold! cursor-pointer" (click)="goToTerms()">
+              {{ 'auth.termsAndPrivacy' | translate }}
+            </span>
+          </p>
+        </div>
+      </div>
+    } @else if (otpStep()) {
+      <form
+        [formGroup]="otpForm"
+        class="w-full h-full flex ps-8! flex-col items-center rounded-[15px] py-8"
+      >
+        <div class="flex-1 w-full flex flex-col items-center gap-8! max-w-[582px] px-2">
+          <uikit-button
+            type="button"
+            [label]="'common.back' | translate"
+            [outlined]="true"
+            class="self-start mb-2!"
+            [style]="{ minWidth: '120px', height: '44px', borderRadius: '12px' }"
+            (clicked)="backFromOtp()"
+          ></uikit-button>
+
+          <div class="flex-1 w-full flex flex-col items-center justify-center gap-8!">
+            <div
+              class="card shadow-2xl rounded-[32px] w-full max-w-[582px] p-6! md:p-4! border border-gray-100"
+            >
+              <div
+                class="bg-(--primary-500)! py-10! px-6! flex flex-col items-center justify-center text-center gap-4! text-white rounded-[24px]"
+              >
+                <div
+                  class="bg-white h-[clamp(56px,10vw,72px)] w-[clamp(56px,10vw,72px)] rounded-[16px] flex items-center justify-center"
+                >
+                  <span class="icon-message text-3xl! text-(--primary-500)!"></span>
+                </div>
+                <h2 class="text-2xl lg:text-3xl! font-bold! text-white mb-0">
+                  {{ 'auth.verifyYourAccount' | translate }}
+                </h2>
+                <p class="text-base lg:text-lg! font-medium! opacity-90 leading-relaxed">
+                  {{ 'auth.verificationCodeSent' | translate }}
+                </p>
+                <p
+                  class="text-base lg:text-lg! font-bold! opacity-100 underline decoration-2 underline-offset-4"
+                >
+                  {{ maskedPendingEmail() }}
+                </p>
+              </div>
+
+              <div class="px-4! lg:px-16! py-8! flex flex-col items-center gap-8!">
+                <div class="w-full flex flex-col justify-center items-center text-center">
+                  <label class="block mb-6 font-bold! text-lg! text-[#1F2937]">
+                    {{ 'auth.enterVerificationCode' | translate }}
+                  </label>
+                  <uikit-otp formControlName="otp" [length]="4" [integerOnly]="true"></uikit-otp>
+                </div>
+                <uikit-button
+                  type="button"
+                  (click)="verifyLoginOtp()"
+                  class="w-full lg:w-80!"
+                  [label]="'auth.verify' | translate"
+                  [iconPosition]="language() === 'ar' ? 'left' : 'right'"
+                  [disabled]="!!otpForm.invalid || isVerifyingOtp()"
+                  [style]="{
+                    width: '100%',
+                    maxWidth: '320px',
+                    height: '56px',
+                    borderRadius: '16px',
+                    backgroundColor: '#3E8F96',
+                    fontSize: '18px',
+                  }"
+                ></uikit-button>
+                <div class="text-center">
+                  @if (canResendOtp()) {
+                    <span
+                      class="text-gray-400 text-base cursor-pointer hover:text-gray-600 font-medium"
+                      (click)="resendLoginOtp()"
+                    >
+                      {{ 'signup.resendCode' | translate }}
+                    </span>
+                  } @else {
+                    <span class="text-gray-400 text-base font-medium">
+                      {{ 'signup.resendCode' | translate }} ({{ resendTimerFormatted() }})
+                    </span>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    } @else {
+      <form
+        [formGroup]="loginForm"
+        class="w-full h-full flex flex-col items-center rounded-[15px] py-8"
+      >
+        <div class="flex-1 w-full flex flex-col items-center justify-center gap-8">
+          <p class="lg:text-[40px]! md:text-[32px]! text-[28px]! font-bold! text-(--primary-500)!">
+            {{ 'auth.loginToYourDashboard' | translate }}
+          </p>
+          @if (loginForm.get('username')?.enabled) {
+            <div class="control flex flex-col gap-1!">
+              <label for="username" class="text-start font-bold!">{{
+                'auth.username' | translate
+              }}</label>
+              <uikit-input-text [emitOnBlur]="false"
+                formControlName="username"
+                [placeholder]="'auth.usernamePlaceholder' | translate"
+              ></uikit-input-text>
+            </div>
+          }
+          @if (loginForm.get('email')?.enabled) {
+            <div class="control flex flex-col gap-1!">
+              <label for="email" class="text-start font-bold!">{{
+                'auth.email' | translate
+              }}</label>
+              <uikit-input-text [emitOnBlur]="false"
+                formControlName="email"
+                [placeholder]="'auth.emailPlaceholder' | translate"
+              ></uikit-input-text>
+            </div>
+          }
+          <div class="control flex flex-col gap-1!">
+            <label for="password" class="text-start font-bold!">{{
+              'auth.password' | translate
+            }}</label>
+            <uikit-input-password
+              formControlName="password"
+              [placeholder]="'auth.passwordPlaceholder' | translate"
+              [emitOnBlur]="false"
+            ></uikit-input-password>
+            <div class="flex justify-end">
+              <uikit-button
+                [plainText]="true"
+                [label]="'auth.forgotPassword' | translate"
+                class="text-end text-(--primary-500)! w-fit!"
+                (click)="goToForgotPassword()"
+              ></uikit-button>
+            </div>
+          </div>
+          <div class="control flex flex-col gap-1!">
+            <label for="role" class="text-start font-bold!">{{
+              'auth.selectRole' | translate
+            }}</label>
+            <uikit-radio-button
+              [options]="roleOptions()"
+              formControlName="role"
+              [optionLabel]="'label'"
+              [optionValue]="'value'"
+              [layout]="'horizontal'"
+              (radioChange)="onRoleChange($event)"
+            ></uikit-radio-button>
+          </div>
+          <div class="control flex flex-col gap-1!">
+            <uikit-button
+              [label]="'auth.login' | translate"
+              [icon]="language() === 'ar' ? 'pi pi-arrow-left' : 'pi pi-arrow-right'"
+              [iconPosition]="language() === 'ar' ? 'left' : 'right'"
+              [style]="{
+                borderRadius: '16px',
+                width: '100%',
+                height: '56px',
+              }"
+              [disabled]="loginForm.invalid"
+              (click)="login()"
+            ></uikit-button>
+          </div>
+
+          @if (loginForm.get('role')?.value === 'clubAdmin') {
+            <div class="text-center flex gap-2 items-center">
+              <span class="text-[#98A2B3] font-medium">
+                {{ 'auth.dontHaveAnAccount' | translate }}
+              </span>
+              <uikit-button
+                [plainText]="true"
+                [label]="'auth.signUp' | translate"
+                class="text-(--primary-500)! font-bold!"
+                (click)="goToSignup()"
+              ></uikit-button>
+            </div>
+          }
+        </div>
+
+        <div class="w-full text-center mt-auto px-4 max-w-[550px]">
+          <p class="text-[#859293] font-medium leading-relaxed">
+            {{ 'auth.termsAcceptance' | translate }}
+            <span class="text-(--primary-500)! font-bold! cursor-pointer" (click)="goToTerms()">
+              {{ 'auth.termsAndPrivacy' | translate }}
+            </span>
+          </p>
+        </div>
+      </form>
+    }
+  </div>
+</div>

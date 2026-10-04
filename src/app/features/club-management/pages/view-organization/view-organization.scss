@@ -1,0 +1,100 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.detail-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  border-bottom: 1px solid #f3f4f6;
+  padding-bottom: 0.75rem;
+}
+
+.detail-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #9ca3af;
+}
+
+.detail-value {
+  font-size: 1rem;
+  color: #1f2937;
+  word-break: break-word;
+
+  &.link {
+    color: var(--primary-500, #3e8f96);
+    text-decoration: underline;
+  }
+}
+
+.media-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.media-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #9ca3af;
+}
+
+.media-image {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 0.75rem;
+  object-fit: cover;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.sport-chip {
+  display: inline-block;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  background: #f3f4f6;
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+.gallery-item {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.gallery-image {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.gallery-caption {
+  font-size: 0.75rem;
+  color: #4b5563;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gallery-meta {
+  display: block;
+  font-size: 0.65rem;
+  color: #9ca3af;
+}

@@ -1,0 +1,53 @@
+<div class="px-5! py-5! flex flex-1 flex-col min-h-0">
+  <form [formGroup]="form" class="flex min-h-0 flex-1 flex-col gap-10">
+    <div class="grid max-w-4xl grid-cols-1 gap-10">
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700" for="usage-agreement-desc-en">
+          {{ 'common.descriptionEn' | translate }}
+        </label>
+        <uikit-editor
+          id="usage-agreement-desc-en"
+          formControlName="description"
+          [placeholder]="'common.descriptionEn' | translate"
+          [editorStyle]="editorBoxStyle"
+          [emitOnBlur]="false"
+        ></uikit-editor>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700" for="usage-agreement-desc-ar">
+          {{ 'common.descriptionAr' | translate }}
+        </label>
+        <uikit-editor
+          id="usage-agreement-desc-ar"
+          formControlName="descriptionAr"
+          [placeholder]="'common.descriptionAr' | translate"
+          [editorStyle]="editorBoxStyle"
+          [emitOnBlur]="false"
+        ></uikit-editor>
+      </div>
+    </div>
+  </form>
+
+  <div class="mt-4! flex shrink-0 justify-end gap-4 border-t border-gray-100 pt-4">
+    <uikit-button
+      [label]="'common.cancel' | translate"
+      [style]="{
+        width: '120px',
+        height: '40px',
+        borderRadius: '12px',
+        fontSize: '16px',
+        backgroundColor: '#f3f4f6',
+        color: '#374151',
+      }"
+      (clicked)="cancel()"
+    ></uikit-button>
+    <uikit-button
+      type="button"
+      [label]="'common.save' | translate"
+      [disabled]="form.invalid"
+      [style]="{ width: '120px', height: '40px', borderRadius: '12px', fontSize: '16px' }"
+      (clicked)="save()"
+    ></uikit-button>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+<div class="booking-report px-5! py-5! min-h-full flex flex-col flex-1">
+  <div class="flex justify-end items-center mb-6">
+    <uikit-button
+      [icon]="'pi pi-download'"
+      [style]="{
+        backgroundColor: 'var(--surface-0)',
+        color: 'var(--primary-color)',
+        padding: '3px',
+      }"
+      (click)="exportReport()"
+    ></uikit-button>
+  </div>
+
+  <!-- Filters -->
+  <div class="grid grid-cols-12 gap-4 mb-6! items-end">
+    <div class="col-span-12 sm:col-span-6 md:col-span-3">
+      <uikit-select
+        [options]="organizationOptions()"
+        [value]="selectedOrganization()"
+        optionLabel="name"
+        optionValue="id"
+        [placeholder]="'reports.bookingReport.organizationPlaceholder' | translate"
+        (valueChange)="onOrganizationChange($event)"
+      ></uikit-select>
+    </div>
+  </div>
+
+  <!-- KPI cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-6!">
+    @for (m of cards(); track m.labelKey) {
+      <p-card class="booking-report-metric-card">
+        <div class="flex items-center gap-3">
+          <div class="booking-report-metric-icon">
+            <i [class]="m.icon" class="pi text-lg"></i>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="font-bold text-xl text-gray-900 m-0">{{ m.value }}</p>
+            <p class="text-sm text-gray-600 m-0 mt-0.5">{{ m.labelKey | translate }}</p>
+          </div>
+        </div>
+      </p-card>
+    }
+  </div>
+
+  <!-- Report table -->
+  <div class="flex-1 min-h-0 overflow-hidden">
+    <uikit-table
+      class="h-full"
+      [paginator]="true"
+      [lazy]="true"
+      [data]="tableData()"
+      [columns]="tableColumns()"
+      [totalCount]="totalCount()"
+      [rowsPerPage]="pageSize()"
+      [rowsPerPageOptions]="rowsPerPageOptionValues()"
+      (selectionChanged)="onSelectionChange($event)"
+      (pageChanged)="onPageChange($event)"
+      (sortChanged)="onSortChange($event)"
+      (rowsPerPageChanged)="onRowsPerPageChanged($event)"
+    ></uikit-table>
+  </div>
+</div>

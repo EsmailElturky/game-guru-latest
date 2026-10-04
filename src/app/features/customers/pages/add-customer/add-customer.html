@@ -1,0 +1,103 @@
+<div class="px-5! py-5! min-h-full flex flex-col">
+<form
+    [formGroup]="customerForm"
+    (ngSubmit)="save()"
+    class="flex flex-col justify-between gap-10 flex-1"
+  >
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.userName' | translate }}</label>
+        <uikit-input-text [emitOnBlur]="false"
+          formControlName="userName"
+          [placeholder]="'profile.userNamePlaceholder' | translate"
+        ></uikit-input-text>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'auth.email' | translate }}</label>
+        <uikit-input-text [emitOnBlur]="false"
+          formControlName="email"
+          [placeholder]="'profile.emailPlaceholder' | translate"
+        ></uikit-input-text>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.phone' | translate }}</label>
+        <uikit-mobile-input
+          [options]="phoneCountryCodeOptions"
+          formControlName="phone"
+        ></uikit-mobile-input>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.address' | translate }}</label>
+        <uikit-input-text [emitOnBlur]="false"
+          formControlName="address"
+          [placeholder]="'profile.addressPlaceholder' | translate"
+        ></uikit-input-text>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'auth.setAPassword' | translate }}</label>
+        <uikit-input-password
+          formControlName="password"
+          [placeholder]="'auth.passwordPlaceholder' | translate"
+        ></uikit-input-password>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{
+          'auth.confirmPassword' | translate
+        }}</label>
+        <uikit-input-password
+          formControlName="confirmPassword"
+          [placeholder]="'auth.passwordPlaceholder' | translate"
+        ></uikit-input-password>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{
+          'profile.dateOfBirth' | translate
+        }}</label>
+        <uikit-date-picker
+          [placeholder]="'profile.dateOfBirth' | translate"
+          formControlName="dob"
+          [showIcon]="true"
+        ></uikit-date-picker>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'common.gender' | translate }}</label>
+        <uikit-radio-button
+          [options]="genderOptions()"
+          formControlName="gender"
+          [optionLabel]="'label'"
+          [optionValue]="'value'"
+          [layout]="'horizontal'"
+        ></uikit-radio-button>
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-4 pt-4 border-t border-gray-100 mt-auto">
+      <uikit-button
+        type="button"
+        [label]="'common.cancel' | translate"
+        [style]="{
+          width: '140px',
+          height: '44px',
+          borderRadius: '12px',
+          fontSize: '16px',
+          backgroundColor: '#f3f4f6',
+          color: '#374151',
+        }"
+        (click)="cancel()"
+      ></uikit-button>
+      <uikit-button
+        type="submit"
+        [label]="'common.save' | translate"
+        [disabled]="customerForm.invalid"
+        [style]="{ width: '140px', height: '44px', borderRadius: '12px', fontSize: '16px' }"
+      ></uikit-button>
+    </div>
+  </form>
+</div>

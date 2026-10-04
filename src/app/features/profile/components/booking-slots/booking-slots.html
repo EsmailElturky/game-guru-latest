@@ -1,0 +1,42 @@
+<div class="flex flex-col h-full">
+  @if (!isAddingSlot()) {
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-8">
+      <h2 class="text-2xl font-bold text-gray-900">{{ 'profile.bookingSlots' | translate }}</h2>
+      <uikit-button
+        [label]="'profile.addSlot' | translate"
+        (click)="toggleAddSlot()"
+      ></uikit-button>
+    </div>
+
+    <!-- Calendar View -->
+    <div class="flex-1 min-h-0 overflow-hidden">
+      <div class="h-full bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
+        <uikit-calendar
+          [events]="events()"
+          #demoCalendar
+          (visibleRangeChange)="onVisibleRangeChange($event)"
+          (eventClick)="onEventClick($event)"
+        ></uikit-calendar>
+      </div>
+    </div>
+
+    <app-event-details-dialog #eventDetailsDialog></app-event-details-dialog>
+  } @else {
+    <!-- Add Slot Form Header -->
+    <div class="flex items-center gap-4 mb-8">
+      <button
+        (click)="toggleAddSlot()"
+        class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition-colors"
+      >
+        <i class="pi pi-arrow-left text-gray-600"></i>
+      </button>
+      <h2 class="text-2xl font-bold text-gray-900">{{ 'profile.addSlot' | translate }}</h2>
+    </div>
+
+    <!-- Add Slot Form -->
+    <div class="flex-1 bg-white rounded-2xl shadow-sm border border-gray-100 p-6 overflow-y-auto">
+      <app-add-slot></app-add-slot>
+    </div>
+  }
+</div>

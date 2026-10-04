@@ -1,0 +1,84 @@
+<div class="px-5! py-5! flex flex-col flex-1 min-h-full">
+@if (refund(); as r) {
+    <div class="flex-1 flex flex-col justify-between gap-10">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10 px-4">
+        <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+          <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+            'refund.refundId' | translate
+          }}</span>
+          <span class="text-lg text-gray-800">{{ r.id }}</span>
+        </div>
+        <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+          <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+            'refund.userName' | translate
+          }}</span>
+          <span class="text-lg text-gray-800">{{ r.refundByName || '-' }}</span>
+        </div>
+        <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+          <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+            'refund.phoneNumber' | translate
+          }}</span>
+          <span class="text-lg text-gray-800">{{ refundPhoneDisplay(r) }}</span>
+        </div>
+        <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+          <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+            'refund.refundDate' | translate
+          }}</span>
+          <span class="text-lg text-gray-800">{{
+            r.refundDate ? (r.refundDate | date: 'short') : '-'
+          }}</span>
+        </div>
+        <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2">
+          <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+            'refund.bookingDate' | translate
+          }}</span>
+          <span class="text-lg text-gray-800">{{
+            r.bookingDate ? (r.bookingDate | date: 'short') : '-'
+          }}</span>
+        </div>
+        <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2 md:col-span-2">
+          <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+            'table.status' | translate
+          }}</span>
+          <span class="text-lg text-gray-800">{{ r.statusName || '-' }}</span>
+        </div>
+        <div class="flex flex-col gap-1.5 border-b border-gray-50 pb-2 md:col-span-2">
+          <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">{{
+            'refund.reason' | translate
+          }}</span>
+          <span class="text-lg text-gray-800 whitespace-pre-wrap">{{ r.reason || '-' }}</span>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap justify-end gap-3 pt-4 border-t border-gray-100 mt-auto">
+        <uikit-button
+          type="button"
+          [label]="'common.back' | translate"
+          [style]="{
+            width: '120px',
+            height: '40px',
+            borderRadius: '12px',
+            fontSize: '16px',
+            backgroundColor: '#f3f4f6',
+            color: '#374151',
+          }"
+          (clicked)="back()"
+        ></uikit-button>
+        <uikit-button
+          type="button"
+          [label]="'refund.reject' | translate"
+          [style]="{ width: '120px', height: '40px', borderRadius: '12px', fontSize: '16px' }"
+          (clicked)="reject()"
+        ></uikit-button>
+        <uikit-button
+          type="button"
+          [label]="'refund.approve' | translate"
+          [style]="{ width: '120px', height: '40px', borderRadius: '12px', fontSize: '16px' }"
+          (clicked)="approve()"
+        ></uikit-button>
+      </div>
+    </div>
+  } @else {
+    <p class="text-gray-500 px-4">{{ 'common.noData' | translate }}</p>
+  }
+</div>

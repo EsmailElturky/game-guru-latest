@@ -1,0 +1,57 @@
+// Utility Classes
+// Define reusable CSS classes here
+@use '../abstract/index' as abstracts;
+
+// Base input styling mixin (converted from .chkui-input class)
+// revisit colors
+:where([readonly], .readonly):not(.p-colorpicker-preview) {
+  @include abstracts.readonly-state;
+}
+
+:where([disabled], .p-disabled, .disabled) {
+  @include abstracts.disabled-state;
+}
+
+.rtl {
+  .search-clear-icon {
+    left: 3% !important;
+    right: auto !important;
+  }
+}
+
+.flex,
+.d-flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+.text-center {
+  text-align: center;
+}

@@ -1,0 +1,15 @@
+<div class="h-full flex flex-col">
+  <div class="flex-1 min-h-0 overflow-hidden">
+    <div class="h-full">
+      <uikit-calendar
+        [events]="calendarEvents()"
+        [buttonText]="buttonText()"
+        #demoCalendar
+        (visibleRangeChange)="onVisibleRangeChange($event)"
+        (eventClick)="onEventClick($event)"
+      ></uikit-calendar>
+    </div>
+  </div>
+</div>
+
+<app-event-details-dialog #eventDetailsDialog></app-event-details-dialog>

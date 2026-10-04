@@ -1,0 +1,120 @@
+<div class="flex flex-col flex-1 min-h-0 gap-6">
+  <app-transaction-action-dialogs (actionCompleted)="onActionsDone()" />
+
+  <div class="text-[clamp(20px,4vw,26px)]! font-bold! text-gray-900">
+    <p>{{ 'requests.transactionDetailTitle' | translate }}</p>
+  </div>
+
+  @if (detail(); as d) {
+    <div class="flex flex-col lg:flex-row gap-8 flex-1 min-h-0">
+      @if (imageUrl(d.thumbnail); as img) {
+        <div class="shrink-0">
+          <img [src]="img" alt="" class="w-40 h-40 rounded-xl object-cover border border-gray-100" />
+        </div>
+      }
+      <div class="flex-1 flex flex-col gap-8 min-w-0">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
+          <div class="detail-field">
+            <span class="detail-label">{{ 'profile.nameEn' | translate }}</span>
+            <span class="detail-value">{{ d.name }}</span>
+          </div>
+          <div class="detail-field">
+            <span class="detail-label">{{ 'profile.nameAr' | translate }}</span>
+            <span class="detail-value">{{ d.nameAr ?? '—' }}</span>
+          </div>
+          <div class="detail-field">
+            <span class="detail-label">{{ 'auth.email' | translate }}</span>
+            <span class="detail-value">{{ d.email }}</span>
+          </div>
+          <div class="detail-field">
+            <span class="detail-label">{{ 'profile.phone' | translate }}</span>
+            <span class="detail-value">{{ phoneLine(d) }}</span>
+          </div>
+          <div class="detail-field">
+            <span class="detail-label">{{ 'profile.city' | translate }}</span>
+            <span class="detail-value">{{ d.cityName }}</span>
+          </div>
+          <div class="detail-field md:col-span-2">
+            <span class="detail-label">{{ 'profile.address' | translate }}</span>
+            <span class="detail-value">{{ d.address }}</span>
+          </div>
+          <div class="detail-field md:col-span-2">
+            <span class="detail-label">{{ 'profile.mapUrl' | translate }}</span>
+            @if (d.urlMap) {
+              <a class="detail-value text-primary break-all" [href]="d.urlMap" target="_blank" rel="noopener">{{
+                d.urlMap
+              }}</a>
+            } @else {
+              <span class="detail-value">—</span>
+            }
+          </div>
+          <div class="detail-field">
+            <span class="detail-label">{{ 'table.createdDate' | translate }}</span>
+            <span class="detail-value">{{ d.createdDate }}</span>
+          </div>
+          <div class="detail-field md:col-span-2">
+            <span class="detail-label">{{ 'requests.sports' | translate }}</span>
+            <span class="detail-value">
+              @for (s of d.sports; track s.id) {
+                <span class="inline-block mr-2 mb-1 px-2 py-0.5 rounded bg-gray-100 text-sm">{{ s.name }}</span>
+              } @empty {
+                —
+              }
+            </span>
+          </div>
+          <div class="detail-field md:col-span-2">
+            <span class="detail-label">{{ 'profile.descriptionEn' | translate }}</span>
+            <span class="detail-value whitespace-pre-wrap">{{ d.description ?? '—' }}</span>
+          </div>
+          <div class="detail-field md:col-span-2">
+            <span class="detail-label">{{ 'profile.descriptionAr' | translate }}</span>
+            <span class="detail-value whitespace-pre-wrap">{{ d.descriptionAr ?? '—' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap justify-end gap-3 pt-4 border-t border-gray-100">
+      <uikit-button
+        type="button"
+        [label]="'common.back' | translate"
+        [style]="{
+          minWidth: '120px',
+          height: '44px',
+          borderRadius: '12px',
+          backgroundColor: '#f3f4f6',
+          color: '#374151',
+        }"
+        (clicked)="back()"
+      ></uikit-button>
+      <uikit-button
+        type="button"
+        [label]="'requests.disapprove' | translate"
+        [style]="{
+          minWidth: '140px',
+          height: '44px',
+          borderRadius: '12px',
+          backgroundColor: '#fef2f2',
+          color: '#b91c1c',
+        }"
+        (clicked)="openDisapprove()"
+      ></uikit-button>
+      <uikit-button
+        type="button"
+        [label]="'requests.approve' | translate"
+        [style]="{ minWidth: '140px', height: '44px', borderRadius: '12px' }"
+        (clicked)="openApprove()"
+      ></uikit-button>
+    </div>
+  } @else if (loadFailed()) {
+    <p class="text-gray-600">{{ 'requests.loadFailed' | translate }}</p>
+    <uikit-button
+      type="button"
+      [label]="'common.back' | translate"
+      [style]="{ width: '140px', height: '44px', borderRadius: '12px' }"
+      (clicked)="back()"
+    ></uikit-button>
+  } @else {
+    <p class="text-gray-500">{{ 'common.noData' | translate }}</p>
+  }
+</div>

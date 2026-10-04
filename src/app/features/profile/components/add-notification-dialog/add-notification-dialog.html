@@ -1,0 +1,96 @@
+<p-dialog
+  [(visible)]="visible"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ width: '700px', borderRadius: '24px' }"
+  [contentStyle]="{ padding: '24px' }"
+  [dismissableMask]="true"
+  (onHide)="hide()"
+>
+<ng-template #headless>
+  <div class="w-full flex justify-center items-center mb-4 p-6!">
+    <h2 class="text-4xl! font-bold!">{{ 'profile.addNotification' | translate }}</h2>
+  </div>
+  <form [formGroup]="notificationForm" (ngSubmit)="save()" class="flex flex-col gap-6 add-notification p-6! overflow-y-scroll">
+    <div class="flex flex-col gap-2">
+      <uikit-select-button
+        class="w-full"
+        [options]="userTypeOptions()"
+        formControlName="userType"
+        (selectButtonChanged)="onUserTypeChange($event)"
+      ></uikit-select-button>
+    </div>
+
+    @if (userType() === 'specific') {
+      <div class="flex flex-col gap-2 border-l-4 border-primary pl-4 py-2">
+        <label class="font-bold text-sm text-gray-700">
+          {{ 'profile.selectUsers' | translate }}
+        </label>
+        <uikit-select
+          [options]="users"
+          optionLabel="name"
+          optionValue="id"
+          [filter]="true"
+          formControlName="selectedUsers"
+          [placeholder]="'profile.selectUsers' | translate"
+        ></uikit-select>
+      </div>
+    }
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">
+          {{ 'profile.nameEn' | translate }}
+        </label>
+        <uikit-input-text [emitOnBlur]="false" formControlName="titleEn" [placeholder]="'mm'"></uikit-input-text>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">
+          {{ 'profile.nameAr' | translate }}
+        </label>
+        <uikit-input-text [emitOnBlur]="false" formControlName="titleAr" [placeholder]="'mm'"></uikit-input-text>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-2 relative">
+      <label class="font-bold text-sm text-gray-700">
+        {{ 'profile.descriptionEn' | translate }}
+      </label>
+      <div class="relative">
+        <uikit-text-area [emitOnBlur]="false"
+          formControlName="descriptionEn"
+          [rows]="5"
+          [placeholder]="'profile.enterMessage' | translate"
+          class="w-full"
+        ></uikit-text-area>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-2 relative">
+      <label class="font-bold text-sm text-gray-700">
+        {{ 'profile.descriptionAr' | translate }}
+      </label>
+      <div class="relative">
+        <uikit-text-area [emitOnBlur]="false"
+          formControlName="descriptionAr"
+          [rows]="5"
+          [placeholder]="'profile.enterMessage' | translate"
+          class="w-full"
+        ></uikit-text-area>
+      </div>
+    </div>
+
+    <div class="flex justify-center mt-4">
+      <uikit-button
+        type="submit"
+        class="w-full"
+        [label]="'common.send' | translate"
+        [disabled]="notificationForm.invalid"
+        [style]="{ width: '100%', height: '48px', borderRadius: '12px', fontSize: '18px', backgroundColor: 'var(--cyan-700)' }"
+      ></uikit-button>
+    </div>
+  </form>
+  </ng-template>
+</p-dialog>

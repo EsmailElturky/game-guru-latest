@@ -1,0 +1,8 @@
+<div class="flex-1 flex flex-col min-h-0 overflow-hidden">
+  <uikit-table
+    [data]="memberships()"
+    [columns]="tableColumns()"
+    [totalCount]="memberships().length"
+    [loading]="loading()"
+  ></uikit-table>
+</div>

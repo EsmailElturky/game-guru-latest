@@ -1,0 +1,27 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.detail-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  border-bottom: 1px solid var(--surface-100, #f3f4f6);
+  padding-bottom: 0.75rem;
+}
+
+.detail-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #9ca3af;
+}
+
+.detail-value {
+  font-size: 1rem;
+  color: #1f2937;
+  word-break: break-word;
+}

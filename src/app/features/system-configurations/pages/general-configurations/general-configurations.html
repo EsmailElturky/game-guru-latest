@@ -1,0 +1,119 @@
+<div class="px-5! py-5! min-h-full flex flex-col justify-between flex-1">
+  <form [formGroup]="configForm" class="flex flex-col gap-10">
+    <!-- Payment Settings Section -->
+    <div formGroupName="paymentSetting" class="flex flex-col gap-6">
+      <h2 class="text-xl font-bold text-(--primary-500)">
+        {{ 'generalConfigurations.paymentSettings' | translate }}
+      </h2>
+      <hr class="border-gray-200" />
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
+        <div class="flex flex-col gap-2">
+          <label class="font-bold text-sm text-gray-700">
+            {{ 'generalConfigurations.taxPercentage' | translate }}
+          </label>
+          <uikit-input-number formControlName="taxPercentage" [suffix]="' % '"></uikit-input-number>
+        </div>
+        <div class="flex flex-col gap-2">
+          <label class="font-bold text-sm text-gray-700">
+            {{ 'generalConfigurations.gatewayPercentage' | translate }}
+          </label>
+          <uikit-input-number
+            formControlName="gatewayPercentage"
+            [suffix]="' % '"
+          ></uikit-input-number>
+        </div>
+      </div>
+    </div>
+
+    <!-- Points Section -->
+    <div formGroupName="pointSetting" class="flex flex-col gap-6">
+      <h2 class="text-xl font-bold text-(--primary-500)">
+        {{ 'generalConfigurations.points' | translate }}
+      </h2>
+      <hr class="border-gray-200" />
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
+        <div class="flex flex-col gap-2">
+          <label class="font-bold text-sm text-gray-700">
+            {{ 'generalConfigurations.referralValue' | translate }}
+          </label>
+          <uikit-input-number
+            formControlName="referralValue"
+            [suffix]="'generalConfigurations.points' | translate"
+          ></uikit-input-number>
+        </div>
+        <div class="flex flex-col gap-2">
+          <label class="font-bold text-sm text-gray-700">
+            {{ 'generalConfigurations.bookingValue' | translate }}
+          </label>
+          <uikit-input-number
+            formControlName="bookingValue"
+            [suffix]="'generalConfigurations.points' | translate"
+          ></uikit-input-number>
+        </div>
+      </div>
+    </div>
+
+    <!-- Refund Policies Section -->
+    <div class="flex flex-col gap-6">
+      <h2 class="text-xl font-bold text-(--primary-500)">
+        {{ 'generalConfigurations.refund' | translate }}
+      </h2>
+      <hr class="border-gray-200" />
+      <div formArrayName="refundPolicies" class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
+        @for (policy of refundPolicies.controls; track $index) {
+          <div [formGroupName]="$index" class="flex flex-col gap-2">
+            <label class="font-bold text-sm text-gray-700">
+              {{ policy.get('policyTypeName')?.value }}
+            </label>
+            <uikit-input-number
+              formControlName="policyPercentage"
+              [suffix]="' % '"
+            ></uikit-input-number>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Membership / Subscription Section -->
+    <!-- <div class="flex flex-col gap-6">
+      <h2 class="text-xl font-bold text-(--primary-500)">
+        {{ 'generalConfigurations.subscription' | translate }}
+      </h2>
+      <hr class="border-gray-200" />
+      <div formArrayName="membershipTypes" class="flex flex-col gap-8">
+        @for (membership of membershipTypes.controls; track $index) {
+          <div [formGroupName]="$index" class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-4">
+            <div class="flex flex-col gap-2">
+              <label class="font-bold text-sm text-gray-700">
+                {{ membership.get('name')?.value }}
+              </label>
+              <uikit-input-number
+                formControlName="fixedValue"
+                [suffix]="'generalConfigurations.sr' | translate"
+              ></uikit-input-number>
+            </div>
+            <div class="flex flex-col gap-2">
+              <label class="font-bold text-sm text-gray-700">
+                {{ 'generalConfigurations.percentage' | translate }}
+              </label>
+              <uikit-input-number
+                formControlName="percentage"
+                [suffix]="' % '"
+              ></uikit-input-number>
+            </div>
+          </div>
+        }
+      </div>
+    </div> -->
+  </form>
+  @if (perms.canEdit()) {
+    <div class="mt-4! flex justify-end pt-4 border-t border-gray-100">
+      <uikit-button
+        (clicked)="save()"
+        [label]="'common.save' | translate"
+        [disabled]="configForm.invalid"
+        [style]="{ width: '120px', height: '40px', borderRadius: '12px', fontSize: '16px' }"
+      ></uikit-button>
+    </div>
+  }
+</div>

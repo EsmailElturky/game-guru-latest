@@ -1,0 +1,32 @@
+<div class="w-full h-screen flex flex-col justify-center lets-start gap-12 text-center">
+  <div class="w-full flex justify-center">
+    <img src="./assets/images/vertical-logo.svg" alt="" />
+  </div>
+  <div>
+    <p class="lg:text-[68px]! md:text-[48px]! text-[28px]! font-bold! text-white">
+      {{ 'auth.welcomeToAdminManager' | translate }}
+    </p>
+    <p class="lg:text-[28px]! md:text-[20px]! text-[16px]! font-medium! text-white text-center">
+      {{ 'auth.yourGatewayToEffortlessManagement' | translate }}
+    </p>
+  </div>
+  <div class="w-full">
+    <uikit-button
+      [routerLink]="['/auth/login']"
+      class="w-full"
+      [label]="'auth.letsGetStarted' | translate"
+      [icon]="language() === 'ar' ? 'pi pi-arrow-left' : 'pi pi-arrow-right'"
+      [iconPosition]="language() === 'ar' ? 'left' : 'right'"
+      size="large"
+      [outlined]="true"
+      [style]="{
+        borderRadius: '16px',
+        width: 'clamp(300px, 50%, 471px)',
+        backgroundColor: 'white',
+        color: 'var(--primary-500)',
+        fontSize: '20px',
+        height: '56px',
+      }"
+    />
+  </div>
+</div>

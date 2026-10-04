@@ -1,0 +1,63 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.calendar-container {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #f1f5f9;
+  padding: 1rem;
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+/* Custom styles for the calendar to match the image */
+::ng-deep {
+  .fc {
+    font-family: inherit;
+  }
+
+  .fc .fc-toolbar-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111827;
+  }
+
+  .fc .fc-button-primary {
+    background-color: transparent;
+    border-color: #e5e7eb;
+    color: #374151;
+
+    &:hover {
+      background-color: #f9fafb;
+      border-color: #d1d5db;
+    }
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  .fc .fc-col-header-cell {
+    padding: 12px 0;
+    background-color: #f8fafc;
+    border-color: #f1f5f9;
+
+    .fc-col-header-cell-cushion {
+      color: #64748b;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+  }
+
+  .fc-event {
+    border-radius: 8px;
+    padding: 4px 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+}

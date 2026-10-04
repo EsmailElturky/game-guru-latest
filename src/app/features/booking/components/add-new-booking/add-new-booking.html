@@ -1,0 +1,129 @@
+<div class="px-5! py-5! flex flex-1 flex-col justify-between min-h-full">
+  <form [formGroup]="slotForm" class="flex flex-col gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.court' | translate }}</label>
+        <uikit-select
+          formControlName="facilityId"
+          [options]="courtOptionsOptions()"
+          [placeholder]="'profile.selectItem' | translate"
+          [optionLabel]="'name'"
+          [optionValue]="'id'"
+        ></uikit-select>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'booking.date' | translate }}</label>
+        <uikit-date-picker
+          formControlName="bookingDate"
+          [placeholder]="'Select Date'"
+          [showIcon]="true"
+        ></uikit-date-picker>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.sport' | translate }}</label>
+        <uikit-select
+          formControlName="bookingSlotSports"
+          [options]="sportOptions()"
+          [placeholder]="'profile.selectItem' | translate"
+          [optionLabel]="'name'"
+          [optionValue]="'id'"
+        ></uikit-select>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.sportType' | translate }}</label>
+        <uikit-select
+          formControlName="sportType"
+          [options]="sportTypeOptions()"
+          [placeholder]="'profile.selectItem' | translate"
+          [optionLabel]="'name'"
+          [optionValue]="'id'"
+        ></uikit-select>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.startTime' | translate }}</label>
+        <uikit-date-picker
+          formControlName="startTime"
+          [placeholder]="'00:00'"
+          [showIcon]="true"
+          [timeOnly]="true"
+          icon="pi pi-clock"
+        ></uikit-date-picker>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'profile.endTime' | translate }}</label>
+        <uikit-date-picker
+          formControlName="endTime"
+          [placeholder]="'00:00'"
+          [showIcon]="true"
+          [timeOnly]="true"
+          icon="pi pi-clock"
+        ></uikit-date-picker>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{
+          'profile.descriptionEn' | translate
+        }}</label>
+        <uikit-text-area [emitOnBlur]="false"
+          formControlName="description"
+          [placeholder]="'profile.descriptionPlaceholder' | translate"
+          [rows]="4"
+        ></uikit-text-area>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{
+          'profile.descriptionAr' | translate
+        }}</label>
+        <uikit-text-area [emitOnBlur]="false"
+          formControlName="descriptionAr"
+          [placeholder]="'profile.descriptionPlaceholder' | translate"
+          [rows]="4"
+        ></uikit-text-area>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{
+          'profile.bookingFees' | translate
+        }}</label>
+        <uikit-input-number
+          formControlName="bookingFees"
+          [suffix]="'generalConfigurations.sr' | translate"
+        ></uikit-input-number>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'common.gender' | translate }}</label>
+        <uikit-radio-button
+          formControlName="genderType"
+          [options]="genderOptions()"
+          [layout]="'horizontal'"
+          [optionLabel]="'name'"
+          [optionValue]="'id'"
+        ></uikit-radio-button>
+      </div>
+    </div>
+  </form>
+  <div class="flex justify-end gap-4 pt-6 border-t border-gray-100">
+    <uikit-button
+      type="button"
+      [label]="'profile.saveAndRepeat' | translate"
+      variant="outline"
+      [outlined]="true"
+      (click)="save(true)"
+    ></uikit-button>
+    <uikit-button
+      type="button"
+      [label]="'common.save' | translate"
+      (click)="save(false)"
+    ></uikit-button>
+  </div>
+</div>
+
+
+

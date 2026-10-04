@@ -1,0 +1,40 @@
+@use '../abstract/index' as abstract;
+
+// ========================
+// CSS Custom Properties (Variables)
+// ========================
+// These CSS custom properties are globally available throughout the application
+// and can be overridden at runtime using JavaScript or inline styles.
+:root {
+  --font-family-ltr: 'Myriad-Pro', sans-serif;
+  --font-family-rtl: 'Rubik', sans-serif;
+  --default-font-family: var(--font-family-ltr);
+
+  // Font Weights
+  --fw-regular: 400;
+  --fw-semi-bold: 600;
+  --fw-bold: 700;
+
+  font-size: clamp(12px, 1vw, 16px);
+}
+
+// RTL (Right-to-Left) Styling
+// Applies to elements with either:
+// 1. The .rtl class
+// 2. The dir="rtl" HTML attribute
+// This ensures proper text direction and font family for RTL languages like Arabic and Hebrew.
+.rtl,
+[dir='rtl'],
+[lang='ar'] {
+  // Switch to RTL font family (Cairo in this case)
+  --default-font-family: var(--font-family-rtl);
+
+  // Apply the RTL font family
+  font-family: var(--default-font-family);
+
+  // Set text direction to right-to-left
+  direction: rtl;
+
+  // Ensure proper handling of bidirectional text
+  unicode-bidi: plaintext;
+}

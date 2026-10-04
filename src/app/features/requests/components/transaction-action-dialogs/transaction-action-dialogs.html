@@ -1,0 +1,103 @@
+<p-dialog
+  [visible]="approveVisible()"
+  (visibleChange)="onApproveVisibleChange($event)"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [dismissableMask]="true"
+  [style]="{ width: '520px', borderRadius: '24px' }"
+  [header]="'requests.approveTitle' | translate"
+>
+  <form [formGroup]="approveForm" class="flex flex-col gap-4 p-2">
+    <div class="flex flex-col gap-2">
+      <label class="font-bold text-sm text-gray-700">{{ 'requests.membershipType' | translate }}</label>
+      <uikit-select
+        formControlName="membershipTypeId"
+        [options]="membershipOptions()"
+        optionLabel="label"
+        optionValue="value"
+        [placeholder]="'profile.selectItem' | translate"
+      ></uikit-select>
+    </div>
+    <div class="flex flex-col gap-2">
+      <label class="font-bold text-sm text-gray-700">{{ 'requests.fixedValue' | translate }}</label>
+      <uikit-input-number formControlName="fixedValue"></uikit-input-number>
+    </div>
+    @if (requiresPercentage()) {
+      <div class="flex flex-col gap-2">
+        <label class="font-bold text-sm text-gray-700">{{ 'requests.percentage' | translate }}</label>
+        <uikit-input-number formControlName="percentage"></uikit-input-number>
+      </div>
+    }
+    <div class="flex justify-end gap-3 pt-2 border-t border-gray-100">
+      <uikit-button
+        [label]="'common.cancel' | translate"
+        variant="outline"
+        [outlined]="true"
+        type="button"
+        (click)="dismissApprove()"
+        [style]="{ minWidth: '100px', height: '44px', borderRadius: '12px' }"
+      ></uikit-button>
+      <uikit-button
+        [label]="'common.confirm' | translate"
+        type="button"
+        [loading]="submitting()"
+        (click)="submitApprove()"
+        [style]="{
+          minWidth: '120px',
+          height: '44px',
+          borderRadius: '12px',
+          fontSize: '16px',
+        }"
+      ></uikit-button>
+    </div>
+  </form>
+</p-dialog>
+
+<p-dialog
+  [visible]="disapproveVisible()"
+  (visibleChange)="onDisapproveVisibleChange($event)"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [dismissableMask]="true"
+  [style]="{ width: '520px', borderRadius: '24px' }"
+  [header]="'requests.disapproveTitle' | translate"
+>
+  <form [formGroup]="disapproveForm" class="flex flex-col gap-4 p-2">
+    <div class="flex flex-col gap-2">
+      <label class="font-bold text-sm text-gray-700" for="disapprove-reason">{{
+        'requests.disapproveReason' | translate
+      }}</label>
+      <uikit-text-area [emitOnBlur]="false"
+        id="disapprove-reason"
+        formControlName="reason"
+        [rows]="5"
+        [placeholder]="'requests.disapproveReasonPlaceholder' | translate"
+        class="w-full"
+      ></uikit-text-area>
+    </div>
+    <div class="flex justify-end gap-3 pt-2 border-t border-gray-100">
+      <uikit-button
+        [label]="'common.cancel' | translate"
+        variant="outline"
+        [outlined]="true"
+        type="button"
+        (click)="dismissDisapprove()"
+        [style]="{ minWidth: '100px', height: '44px', borderRadius: '12px' }"
+      ></uikit-button>
+      <uikit-button
+        [label]="'common.submit' | translate"
+        type="button"
+        [loading]="submitting()"
+        (click)="submitDisapprove()"
+        [style]="{
+          minWidth: '120px',
+          height: '44px',
+          borderRadius: '12px',
+          fontSize: '16px',
+        }"
+      ></uikit-button>
+    </div>
+  </form>
+</p-dialog>

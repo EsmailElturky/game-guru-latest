@@ -1,0 +1,16 @@
+<div class="flex w-full justify-between items-center">
+  <!-- @if (items().length > 1) { -->
+  <uikit-breadcrumb [items]="items()"></uikit-breadcrumb>
+  <!-- } -->
+  <!-- // notification icon  of class pi pi-bell-->
+  <div class="flex items-center gap-2">
+    <uikit-button
+      [label]="language() === 'ar' ? 'English' : 'العربية'"
+      [text]="true"
+      [style]="{ width: 'auto', height: '40px', borderRadius: '12px', fontSize: '16px' }"
+      (clicked)="toggleLanguage()"
+    ></uikit-button>
+
+    <app-organization-notifications />
+  </div>
+</div>

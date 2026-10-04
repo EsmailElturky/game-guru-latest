@@ -1,0 +1,51 @@
+<div class="font-semibold! text-[14px]!">
+  @if (sideMenuItem()!.items?.length) {
+    <p-panelmenu [model]="[sideMenuItem()!]" class="w-full">
+      <ng-template #item let-item>
+        @if (item.visible) {
+          <div
+            class="flex justify-between items-center h-[44px]"
+            [ngClass]="{
+              'header-item': item.items?.length,
+              'sub-item': !item.items?.length,
+              active: !item.items?.length && isRouteActive(item.route ?? ''),
+            }"
+            (click)="item.items?.length ? expanded.set(!expanded()) : navigate(item.route ?? '')"
+          >
+            <div class="flex items-center">
+              @if (item.items?.length) {
+                <span [class]="item?.icon + ' text-[16px]!'"></span>
+              } @else {
+                <div class="flex items-center">
+                  <span class="dot"></span>
+                </div>
+              }
+              <span class="mx-4!">{{ item.label | translate }}</span>
+            </div>
+            @if (item.items?.length) {
+              <span>
+                <i [class]="expanded() ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"></i>
+              </span>
+            }
+          </div>
+        }
+      </ng-template>
+    </p-panelmenu>
+  } @else {
+    <div
+      class="flex justify-between header-item h-[44px]"
+      [ngClass]="{ active: isRouteActive(sideMenuItem()!.route ?? '') }"
+      (click)="navigate(sideMenuItem()!.route ?? '')"
+    >
+      <div class="flex items-center">
+        <span [class]="sideMenuItem()?.icon + ' text-[16px]!'"></span>
+        <span class="mx-4!">{{ sideMenuItem()?.label | translate }}</span>
+      </div>
+      @if (sideMenuItem()?.badge) {
+        <div class="flex items-center">
+          <p-badge class="ml-auto" [value]="sideMenuItem()?.badge" />
+        </div>
+      }
+    </div>
+  }
+</div>

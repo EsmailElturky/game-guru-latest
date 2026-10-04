@@ -1,0 +1,118 @@
+import { CommonModule } from '@angular/common';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { CellType, InputTextComponent, TableComponent } from '@EsmailElturky/ui-kit';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { skip, take } from 'rxjs';
+import { TranslationService } from 'src/app/core/services';
+import { ltrIsolate, transformDate } from 'src/app/shared/functions';
+import { OrganizationTransactionService } from '../../services/organization-transaction.service';
+import { IOrganizationTransactionListItem } from '../../interfaces/organization-transaction.interface';
+
+type Row = IOrganizationTransactionListItem & {
+  phoneDisplay: string;
+  createdDateDisplay: string;
+  activeStatus: 'Active' | 'Inactive';
+};
+
+@Component({
+  selector: 'app-cancel-subscription',
+  standalone: true,
+  imports: [CommonModule, TranslateModule, InputTextComponent, TableComponent],
+  templateUrl: './cancel-subscription.html',
+  styleUrl: './cancel-subscription.scss',
+})
+export class CancelSubscription {
+  private readonly organizationTransaction = inject(OrganizationTransactionService);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly translateService = inject(TranslateService);
+  private readonly translationService = inject(TranslationService);
+
+  searchQuery = signal('');
+  rows = signal<Row[]>([]);
+  totalCount = signal(0);
+  pageSize = signal(10);
+  currentPage = signal(1);
+  tableColumns = signal<any[]>(this.buildTableColumns());
+
+  constructor() {
+    toObservable(this.translationService.onLangChange)
+      .pipe(skip(1), takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.tableColumns.set(this.buildTableColumns());
+        this.loadList();
+      });
+  }
+
+  ngOnInit(): void {
+    this.loadList();
+  }
+
+  private buildTableColumns() {
+    const t = (key: string) => this.translateService.instant(key);
+    return [
+      { field: 'id', header: t('table.id'), width: '100px', frozen: true },
+      { field: 'name', header: t('table.name'), width: '200px' },
+      { field: 'email', header: t('table.email'), width: '220px' },
+      { field: 'phoneDisplay', header: t('table.phoneNumber'), width: '200px' },
+      { field: 'cityName', header: t('profile.city'), width: '140px' },
+      { field: 'address', header: t('profile.address'), width: '220px' },
+      // {
+      //   field: 'statusName',
+      //   header: t('table.status'),
+      //   width: '120px',
+      //   type: CellType.Badge,
+      //   badgeConfig: { Active: 'success', Inactive: 'secondary' },
+      // },
+      { field: 'createdDateDisplay', header: t('table.createdDate'), width: '200px' },
+    ];
+  }
+
+  loadList(): void {
+    this.organizationTransaction
+      .getCancelled({
+        pageNo: this.currentPage(),
+        pageSize: this.pageSize(),
+        search: this.searchQuery(),
+      })
+      .pipe(take(1))
+      .subscribe((res) => {
+        const mapped =
+          res.items?.map((item) => ({
+            ...item,
+            phoneDisplay: ltrIsolate(
+              [item.countryCode, item.phoneNumber].filter(Boolean).join(' '),
+            ),
+            createdDateDisplay: transformDate(item.createdDate),
+            activeStatus: item.isActive ? ('Active' as const) : ('Inactive' as const),
+          })) ?? [];
+        this.rows.set(mapped);
+        this.totalCount.set(res.totalCount);
+        this.pageSize.set(res.pageSize);
+        this.currentPage.set(res.currentPage);
+      });
+  }
+
+  onSearchChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.searchQuery.set(input.value);
+    this.currentPage.set(1);
+    this.loadList();
+  }
+
+  onPageChange(event: number): void {
+    if (event !== this.currentPage()) {
+      this.currentPage.set(event);
+      this.loadList();
+    }
+  }
+
+  onRowsPerPageChanged(event: number | unknown): void {
+    const size = typeof event === 'number' ? event : Number(event);
+    if (size !== this.pageSize()) {
+      this.pageSize.set(size);
+      this.currentPage.set(1);
+      this.loadList();
+    }
+  }
+}
